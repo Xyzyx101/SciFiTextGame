@@ -1,6 +1,7 @@
 #pragma once
 
 #include<string>
+#include<map>
 #include"Token.h"
 
 class Node {
@@ -8,14 +9,11 @@ class Node {
 friend class GrammarTree;
 
 public:
-	Node(Token* token, std::string myString);
+	Node();
+	Node(Token* token);
 	~Node();
-	const Token& GetToken() const;
-	const std::string& GetString() const;
 private:
-	Node* higher;
-	Node* lower;
+	std::map<std::string, Node*> children;
 	Token* token;
-	std::string myString;
 };
 
