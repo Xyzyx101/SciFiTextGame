@@ -6,8 +6,6 @@ class Token {
 
 public:
 
-	friend class TokenLibrary;
-
 	enum TokenType {
 		VERB,
 		NOUN,
@@ -15,11 +13,11 @@ public:
 		COMMAND_SEPERATOR
 	};
 
+	Token(TokenType type, std::string name);
 	~Token();
 	TokenType GetType() const;
 	const std::string& GetName() const;
 private:
-	Token(TokenType type, std::string name);
 	TokenType type;
 	const std::string name;
 };

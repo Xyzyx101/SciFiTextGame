@@ -1,16 +1,15 @@
 #include "GrammarTree.h"
+#include<vector>
 
 GrammarTree::GrammarTree() :
 current(nullptr),
-currentParent(nullptr)
-{
-	root = new Node(nullptr);
+currentParent(nullptr) {
+	root = new Node();
 }
 
 GrammarTree::~GrammarTree() {}
 
-void GrammarTree::Reset()
-{
+void GrammarTree::Reset() {
 	current = root;
 	currentParent = nullptr;
 }
@@ -20,11 +19,13 @@ void GrammarTree::AddNode(Token* token, std::string alias) {
 }
 
 void GrammarTree::AddNode(Node* node, Token* token, std::string alias) {
-	std::map<std::string, Node*>::iterator it = node->children.lower_bound(alias);
+
+	std::vector<Edge>::iterator edgeIter = node->children.begin();
+
 	std::string partial = "";
-	while( partial == "" && it != node->children.end() ) {
-		std::string edgeString = it->first;
-		for(size_t i = 0; i < edgeString.length(); ++i ) {
+	while( partial == "" && edgeIter != node->children.end() ) {
+		std::string edgeString = edgeIter->prefix;
+		for( size_t i = 0; i < edgeString.length(); ++i ) {
 			if( alias[i] == edgeString[i] ) {
 				partial += alias[i];
 			}
@@ -32,20 +33,20 @@ void GrammarTree::AddNode(Node* node, Token* token, std::string alias) {
 
 		//TODO recursive depth call goes here
 
-		++it;
+		++edgeIter;
 	}
 	Node* newNode = new Node(token);
 	if( partial == "" ) {
-		node->children.insert(std::pair<std::string, Node*>(alias, newNode));
+		node->children.push_back(Edge(partial, newNode));
 	} else {
-		std::map<std::string, Node*>::iterator oldNodeIt = node->children.lower_bound(partial);
-		std::string oldString = oldNodeIt->first;
-		Node* oldNode = oldNodeIt->second;
+		std::vector<Edge>::iterator oldEdgeIt = node->children.begin();
+		std::string oldString = oldEdgeIt->prefix;
+		Node* oldNode = oldEdgeIt->node;
 		Node* splitNode = new Node();
-		splitNode->children.insert(std::pair<std::string, Node*>(alias.substr(partial.length()), newNode));
-		splitNode->children.insert(std::pair<std::string, Node*>(oldString.substr(partial.length()), oldNode));
-		node->children.insert(std::pair<std::string, Node*>(partial, splitNode));
-		node->children.erase(oldNodeIt);
+		splitNode->children.push_back(Edge(alias.substr(partial.length()), newNode));
+		splitNode->children.push_back(Edge(alias.substr(partial.length()), oldNode));
+		node->children.push_back(Edge(partial, splitNode));
+		node->children.erase(oldEdgeIt);
 	}
 }
 

@@ -1,8 +1,9 @@
 #pragma once
 
 #include<string>
-#include<map>
+#include<vector>
 #include"Token.h"
+#include"Edge.h"
 
 class Node {
 
@@ -13,7 +14,7 @@ public:
 	Node(Token* token);
 	~Node();
 private:
-	std::map<std::string, Node*> children;
+	std::vector<Edge> children;
 	Token* token;
 };
 
