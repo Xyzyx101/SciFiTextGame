@@ -30,6 +30,9 @@
     <ClInclude Include="TokenPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommonTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GrammarTree.cpp">

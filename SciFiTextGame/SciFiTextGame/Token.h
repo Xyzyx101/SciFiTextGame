@@ -21,4 +21,3 @@ private:
 	TokenType type;
 	const std::string name;
 };
-

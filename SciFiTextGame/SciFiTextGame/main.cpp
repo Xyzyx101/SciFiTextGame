@@ -1,3 +1,4 @@
+#include"CommonTypes.h"
 #include"GrammarTree.h"
 #include"TokenPool.h"
 

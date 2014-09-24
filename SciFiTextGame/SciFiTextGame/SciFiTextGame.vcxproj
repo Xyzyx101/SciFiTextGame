@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommonTypes.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="GrammarTree.h" />
     <ClInclude Include="Node.h" />
