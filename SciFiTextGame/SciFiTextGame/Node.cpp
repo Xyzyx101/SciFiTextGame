@@ -3,7 +3,7 @@
 Node::Node() :
 token(nullptr) {}
 
-Node::Node(Token* token) :
+Node::Node(const Token* const token) :
 token(token) {}
 
 Node::~Node() {

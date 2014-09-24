@@ -15,6 +15,7 @@
     <ClInclude Include="GrammarTree.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Token.h" />
+    <ClInclude Include="TokenPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Edge.cpp" />
@@ -22,6 +23,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="TokenPool.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BCDE7604-C895-46A3-9F8E-7683A2E92A43}</ProjectGuid>

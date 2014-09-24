@@ -14,39 +14,44 @@ void GrammarTree::Reset() {
 	currentParent = nullptr;
 }
 
-void GrammarTree::AddNode(Token* token, std::string alias) {
+void GrammarTree::AddNode(const Token* const token, const std::string& alias) {
 	AddNode(root, token, alias);
 }
 
-void GrammarTree::AddNode(Node* node, Token* token, std::string alias) {
+void GrammarTree::AddNode(Node* node, const Token* const token, const std::string& alias) {
 
 	std::vector<Edge>::iterator edgeIter = node->children.begin();
 
 	std::string partial = "";
-	while( partial == "" && edgeIter != node->children.end() ) {
+	while( edgeIter != node->children.end() ) {
 		std::string edgeString = edgeIter->prefix;
 		for( size_t i = 0; i < edgeString.length(); ++i ) {
 			if( alias[i] == edgeString[i] ) {
 				partial += alias[i];
+			} else {
+				break;
 			}
 		}
-
-		//TODO recursive depth call goes here
-
+		if( partial == edgeString ) {
+			AddNode(edgeIter->node, token, alias.substr(partial.length()));
+			return;
+		}
+		else if( partial != "" ) {
+			break;
+		}
 		++edgeIter;
 	}
 	Node* newNode = new Node(token);
 	if( partial == "" ) {
-		node->children.push_back(Edge(partial, newNode));
+		node->children.push_back(Edge(alias, newNode));
 	} else {
-		std::vector<Edge>::iterator oldEdgeIt = node->children.begin();
-		std::string oldString = oldEdgeIt->prefix;
-		Node* oldNode = oldEdgeIt->node;
+		std::string oldString = edgeIter->prefix;
+		Node* oldNode = edgeIter->node;
+		node->children.erase( edgeIter );
 		Node* splitNode = new Node();
 		splitNode->children.push_back(Edge(alias.substr(partial.length()), newNode));
-		splitNode->children.push_back(Edge(alias.substr(partial.length()), oldNode));
+		splitNode->children.push_back(Edge(oldString.substr(partial.length()), oldNode));
 		node->children.push_back(Edge(partial, splitNode));
-		node->children.erase(oldEdgeIt);
 	}
 }
 

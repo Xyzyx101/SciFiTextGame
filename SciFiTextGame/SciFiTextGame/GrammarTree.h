@@ -7,10 +7,10 @@ class GrammarTree {
 public:
 	GrammarTree();
 	~GrammarTree();
-	void AddNode(Token* token, std::string alias);
-	const Token* const Search(const std::string& string) const;
+	const Token* const Search( const std::string& string ) const;
+	void AddNode(const Token* const token, const std::string& alias);
 private:
-	void AddNode(Node* node, Token* token, std::string alias);
+	void AddNode(Node* node, const Token* const token, const std::string& alias);
 	void Reset();
 	void Delete(Node* node);
 	void ChangeNode(Node* node);
