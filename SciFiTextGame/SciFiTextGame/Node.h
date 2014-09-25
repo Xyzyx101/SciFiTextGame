@@ -11,10 +11,10 @@ friend class GrammarTree;
 
 public:
 	Node();
-	Node(const Token* const token);
+	Node(Token_ptr const token);
 	~Node();
 private:
-	std::vector<Edge> children;
-	const Token* const token;
+	std::vector<Edge_ptr> children;
+	Token_ptr const token;
 };
 

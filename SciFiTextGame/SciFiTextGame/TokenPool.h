@@ -8,7 +8,7 @@ class TokenPool {
 public:
 	static TokenPool& Instance();
 	void NewToken( Token::TokenType type, std::string name );
-	Token_ptr const GetToken(std::string name) const;
+	Token_ptr const GetToken(const std::string& name) const;
 private:
 	static TokenPool instance;
 	TokenPool( );
@@ -18,3 +18,6 @@ private:
 	std::map<std::string, Token_ptr> tokenMap;
 };
 
+inline Token_ptr TOKEN(const std::string& name) {
+	return TokenPool::Instance().GetToken(name);
+}
