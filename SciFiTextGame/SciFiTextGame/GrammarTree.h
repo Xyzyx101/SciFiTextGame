@@ -1,5 +1,5 @@
 #pragma once
-
+#include<string>
 #include"CommonTypes.h"
 #include"Node.h"
 #include"Edge.h"

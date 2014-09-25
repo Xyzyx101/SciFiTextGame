@@ -1,5 +1,4 @@
 #include"TokenPool.h"
-#include"Token.h"
 #include<memory>
 
 TokenPool TokenPool::instance;

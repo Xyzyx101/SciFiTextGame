@@ -2,8 +2,7 @@
 
 #include<string>
 #include<vector>
-#include"Token.h"
-#include"Edge.h"
+#include"CommonTypes.h"
 
 class Node {
 

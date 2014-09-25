@@ -10,17 +10,14 @@ int main() {
 	TokenPool::Instance().NewToken(Token::VERB, "barry");
 	TokenPool::Instance().NewToken(Token::VERB, "beer");
 	
-	for( size_t i = 0; i < 100000; ++i ) {
-		GrammarTree* gt = new GrammarTree();
-		gt->AddNode(TOKEN("bacon"), "bacon");
-		gt->AddNode(TOKEN("cheese"), "cheese");
-		gt->AddNode(TOKEN("bar"), "bar");
-		gt->AddNode(TOKEN("ball"), "ball");
-		gt->AddNode(TOKEN("barry"), "barry");
-		gt->AddNode(TOKEN("beer"), "beer");
-		delete gt;
-	}
-
+	GrammarTree gt;
+	gt.AddNode(TOKEN("bacon"), "bacon");
+	gt.AddNode(TOKEN("cheese"), "cheese");
+	gt.AddNode(TOKEN("bar"), "bar");
+	gt.AddNode(TOKEN("ball"), "ball");
+	gt.AddNode(TOKEN("barry"), "barry");
+	gt.AddNode(TOKEN("beer"), "beer");
+	
 	system("pause");
 
 	return 0;
