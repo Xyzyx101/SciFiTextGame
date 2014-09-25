@@ -1,6 +1,7 @@
 #pragma once
 
 #include<string>
+#include<set>
 #include"CommonTypes.h"
 
 class Node;
@@ -9,6 +10,7 @@ class Node;
 class Edge {
 
 	friend class GrammarTree;
+	friend struct EdgeSetComparator;
 
 public:
 	Edge(std::string prefix, Node_ptr node);

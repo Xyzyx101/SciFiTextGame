@@ -19,9 +19,7 @@ void GrammarTree::AddNode(Token_ptr const token, const std::string& alias) {
 }
 
 void GrammarTree::AddNode(Node_ptr node, Token_ptr const token, const std::string& alias) {
-
 	std::vector<Edge_ptr>::iterator edgeIter = node->children.begin();
-
 	std::string partial = "";
 	while( edgeIter != node->children.end() ) {
 		std::string edgeString = (*edgeIter)->prefix;

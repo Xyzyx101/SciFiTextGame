@@ -3,6 +3,7 @@
 #include<string>
 #include<vector>
 #include"CommonTypes.h"
+#include"Edge.h"
 
 class Node {
 
@@ -16,4 +17,3 @@ private:
 	std::vector<Edge_ptr> children;
 	Token_ptr const token;
 };
-
