@@ -38,19 +38,19 @@
     <ClCompile Include="GrammarTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Token.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Edge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TokenPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GrammarTree_Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GrammarTree_Edge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

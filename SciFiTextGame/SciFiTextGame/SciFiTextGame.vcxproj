@@ -19,10 +19,10 @@
     <ClInclude Include="TokenPool.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="GrammarTree_Edge.cpp" />
     <ClCompile Include="GrammarTree.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="GrammarTree_Node.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenPool.cpp" />
   </ItemGroup>
