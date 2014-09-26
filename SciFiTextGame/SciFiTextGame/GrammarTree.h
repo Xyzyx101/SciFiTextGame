@@ -1,8 +1,8 @@
 #pragma once
 #include<string>
 #include"CommonTypes.h"
-#include"Node.h"
-#include"Edge.h"
+#include"GrammarTree_Node.h"
+#include"GrammarTree_Edge.h"
 
 class GrammarTree {
 public:
@@ -13,7 +13,8 @@ public:
 private:
 	void AddNode(Node_ptr node, Token_ptr const token, const std::string& alias);
 	void Reset();
-	Node_ptr root;
-	Node_ptr current;
-	Node_ptr currentParent;
+
+	Node_ptr		root;
+	Node_ptr		current;
+	Node_ptr		currentParent;
 };

@@ -3,9 +3,7 @@
 #include<string>
 
 class Token {
-
 public:
-
 	enum TokenType {
 		VERB,
 		NOUN,
@@ -18,6 +16,6 @@ public:
 	TokenType GetType() const;
 	const std::string& GetName() const;
 private:
-	TokenType type;
-	const std::string name;
+	TokenType			type;
+	const std::string	name;
 };

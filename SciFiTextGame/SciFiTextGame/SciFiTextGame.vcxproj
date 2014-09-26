@@ -12,9 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonTypes.h" />
-    <ClInclude Include="Edge.h" />
+    <ClInclude Include="GrammarTree_Edge.h" />
     <ClInclude Include="GrammarTree.h" />
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="GrammarTree_Node.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenPool.h" />
   </ItemGroup>

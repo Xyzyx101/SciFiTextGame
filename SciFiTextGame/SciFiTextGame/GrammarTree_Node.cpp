@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "GrammarTree_Node.h"
 
 Node::Node() :
 token(nullptr) {}
