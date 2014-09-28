@@ -15,16 +15,15 @@ public:
 
 	Token_ptr const Search( const std::string& string ) const;
 	
-	/* This takes an stream buffer and converts it a list of vector. */
-	std::vector<Token_ptr> Tokenize(std::istream& inStream) const;
+	/* This converts a stream to a vector of tokens.  The command string will be destroyed in the process. */
+	std::vector<Token_ptr> Tokenize(std::string& command) const;
 	
 private:
 	/* This recursively walks the tree and adds the node at the correct place. */
 	void AddNode_r(Node_ptr node, Token_ptr const token, const std::string& alias);
 	
-	/* This will split off the beginning of the stream and return it as a token.
-		The stream will be updated with each call. */
-	Token_ptr Find(Node_ptr node, std::istream& inStream) const;
+	/* This recursively decend into the tree and return a token or nullptr if there is no matching entry. */
+	Token_ptr Find_r(Node_ptr node, std::string& command) const;
 
 	void Reset();
 
