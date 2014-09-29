@@ -12,19 +12,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonTypes.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GrammarTree_Edge.h" />
     <ClInclude Include="GrammarTree.h" />
     <ClInclude Include="GrammarTree_Node.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenPool.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GrammarTree_Edge.cpp" />
     <ClCompile Include="GrammarTree.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GrammarTree_Node.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenPool.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BCDE7604-C895-46A3-9F8E-7683A2E92A43}</ProjectGuid>
