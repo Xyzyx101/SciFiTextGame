@@ -1,0 +1,12 @@
+name : cockpit {
+	description : "A cockpit of a spaceship"
+	long_description : "Full of blinking lights and shit.  To the south is a door"
+	exits : {
+		door : cargo_bay,
+		south : cargo_bay
+		}
+	children : {
+		computer,
+		player
+		}
+}
