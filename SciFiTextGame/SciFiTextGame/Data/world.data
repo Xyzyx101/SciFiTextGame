@@ -1,4 +1,5 @@
 name : cockpit {
+	type : room
 	description : "A cockpit of a spaceship"
 	long_description : "Full of blinking lights and shit.  To the south is a door"
 	exits : {
@@ -9,4 +10,16 @@ name : cockpit {
 		computer,
 		player
 		}
+}
+
+name : computer {
+	type : object
+	description : "The computer has buttons"
+	long_description : "Yhe computer has long buttons"
+}
+
+name : player {
+	type : player
+	description : "The player"
+	long_description : "The player long"
 }

@@ -1,0 +1,28 @@
+activate USE
+answer SAY
+climb CLIMB
+close CLOSE
+drop DROP
+enter GO
+examine EXAMINE
+exit GO
+go GO
+inventory INVENTORY
+i INVENTORY
+look LOOK
+l LOOK
+move GO
+open OPEN
+pick up TAKE
+put PUT
+put down DROP
+quit QUIT
+read READ
+say SAY
+score SCORE
+search EXAMINE
+take TAKE
+turn on USE
+touch TOUCH
+use USE
+walk WALK

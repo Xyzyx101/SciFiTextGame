@@ -35,7 +35,9 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="verbs.dict" />
+    <None Include="Data\importer.dict" />
+    <None Include="Data\verbs.dict" />
+    <None Include="Data\world.data" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BCDE7604-C895-46A3-9F8E-7683A2E92A43}</ProjectGuid>
