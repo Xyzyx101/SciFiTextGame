@@ -1,8 +1,8 @@
 #include "Token.h"
 
-Token::Token( TokenType type, std::string name ) :
+Token::Token( TokenType type, std::string property ) :
     type( type ),
-    name( name ) 
+    property( property ) 
 {}
 
 Token::~Token() {}
@@ -12,5 +12,5 @@ Token::TokenType Token::GetType() const {
 }
 
 const std::string& Token::GetName() const {
-	return name;
+	return property;
 }

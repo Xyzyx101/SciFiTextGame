@@ -1,9 +1,8 @@
 #pragma once
 #include<string>
 #include<iostream>
+#include<vector>
 #include"CommonTypes.h"
-#include"GrammarTree_Node.h"
-#include"GrammarTree_Edge.h"
 
 class GrammarTree {
 public:

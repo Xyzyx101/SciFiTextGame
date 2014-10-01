@@ -12,6 +12,16 @@ name : cockpit {
 		}
 }
 
+name : cargo_bay {
+	type : room
+	description : "A cargo bay"
+	long_description : "The cargobay is full of stuff. There is a door to the north."
+	exits : {
+		door : cockpit,
+		north : cockpit
+	}
+}
+
 name : computer {
 	type : object
 	description : "The computer has buttons"

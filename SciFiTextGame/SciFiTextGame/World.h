@@ -1,8 +1,7 @@
 #pragma once
-
 #include"GameObject.h"
 
-/* World is the root of a tree made up of all GameObjects in the game. */
+/* World is the root of a tree made up of all GameObjects. */
 
 class World {
 public:

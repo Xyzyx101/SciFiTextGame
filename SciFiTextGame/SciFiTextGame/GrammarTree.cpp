@@ -1,4 +1,6 @@
 #include "GrammarTree.h"
+#include "GrammarTree_Node.h"
+#include "GrammarTree_Edge.h"
 #include<vector>
 #include<cctype>
 

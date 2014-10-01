@@ -6,8 +6,7 @@
 
 class Node;
 
-/* This an edge of GrammarTree graph.  Making the properties public in this case is
-safe because Edge is never exposed beyond the GrammarTree. */
+/* This an edge of a graph */
 class Edge {
 public:
 	Edge(std::string prefix, Node_ptr node);
