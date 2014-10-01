@@ -85,14 +85,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\importer.dict">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Data\verbs.dict">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Data\world.data">
-      <Filter>Resource Files</Filter>
-    </None>
+    <None Include="Data\importer.dict" />
+    <None Include="Data\verbs.dict" />
+    <None Include="Data\world.data" />
   </ItemGroup>
 </Project>

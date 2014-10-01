@@ -9,18 +9,11 @@ WorldBuilder::~WorldBuilder() {
 	delete grammarTree;
 }
 
-void WorldBuilder::InitWithFile(std::string filename) {
+void WorldBuilder::InitWithFile(const std::string& filename) {
 	grammarTree = new GrammarTree();
-	grammarTree->BuildTreeWithFile("importer.dict");
-
-	std::string fullname = "/data/";
-	fullname += filename;
-
-	std::ifstream fStream;
-	fStream.open(fullname, std::ifstream::in);
-			
+	grammarTree->AddDictionary("importer.dict");		
 }
 
-void WorldBuilder::BuildWorld(World& world) const {
+void WorldBuilder::BuildWorld( const std::string&, World& world ) const {
 
 }

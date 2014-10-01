@@ -1,6 +1,7 @@
 #include"TokenPool.h"
 #include"Token.h"
 #include<memory>
+#include<fstream>
 #include<assert.h>
 
 TokenPool TokenPool::instance;
@@ -45,3 +46,4 @@ Token_ptr const TokenPool::GetToken(const std::string& name) const {
 		return it->second;
 	}
 }
+

@@ -8,8 +8,8 @@ class WorldBuilder {
 public:
 	WorldBuilder();
 	~WorldBuilder();
-	void InitWithFile(std::string filename);
-	void BuildWorld(World& world) const;
+	void InitWithFile(const std::string& filename);
+	void BuildWorld(const std::string&, World& world) const;
 private:
 	GrammarTree* grammarTree;
 };

@@ -121,30 +121,31 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command ) const {
 	return nullptr;
 }
 
-void GrammarTree::BuildTreeWithFile(std::string filename) {
-	std::string fullname = "/data/";
-	fullname += filename;
-
+void GrammarTree::AddDictionary( const std::string& dictFile ) {
+	std::string fullName = ".\\Data\\";
+	fullName += dictFile;
 	std::ifstream fStream;
 	std::string line;
-	fStream.open(fullname, std::ifstream::in);
-	while( fStream.good() ) {
-		std::getline(fStream, line);
-		AddNodeWithString(line);
+	fStream.open( fullName, std::ifstream::in );
+	while( fStream.good( ) ) {
+		std::getline( fStream, line );
+		AddNodeWithString( line );
 	}
-	fStream.close();
+	fStream.close( );
 }
 
-void GrammarTree::AddNodeWithString(std::string line) {
+void GrammarTree::AddNodeWithString(const std::string& line) {
 	int firstSpace, lastSpace;
 	firstSpace = line.find_first_of(' ');
 	lastSpace = line.find_last_of(' ');
 
 	std::string alias, type, token;
 	alias = line.substr(0, firstSpace);
-	type = line.substr(firstSpace, lastSpace - firstSpace);
-	token = line.substr(lastSpace);
+	type = line.substr(firstSpace + 1, lastSpace - firstSpace - 1);
+	token = line.substr(lastSpace + 1);
 
 	Token_ptr newToken = TokenPool::Instance().NewToken(type, token);
 	AddNode(newToken, alias);
 }
+
+

@@ -5,7 +5,7 @@
 
 class World {
 public:
-	World();
+	static World& Instance();
 	~World();
 	GameObject_ptr GetObjectFromName(std::string name) const;
 	GameObject_ptr GetLocalObject(std::string name) const;
@@ -13,6 +13,8 @@ public:
 	void AddObject(GameObject_ptr);
 	bool MoveObject(GameObject_ptr object, GameObject_ptr newParent);
 private:
+	static World instance;
+	World( );
 	std::vector<GameObject_ptr> children;
 	GameObject_ptr player;
 };
