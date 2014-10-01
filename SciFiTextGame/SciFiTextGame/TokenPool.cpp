@@ -1,5 +1,7 @@
 #include"TokenPool.h"
+#include"Token.h"
 #include<memory>
+#include<assert.h>
 
 TokenPool TokenPool::instance;
 
@@ -15,9 +17,24 @@ TokenPool& TokenPool::operator=(const TokenPool& rhs) {
 	return instance;
 }
 
-void TokenPool::NewToken(Token::TokenType type, std::string name) {
-	Token_ptr newToken = std::make_shared<Token>(type, name);
+Token_ptr TokenPool::NewToken(std::string type, std::string name) {
+	Token::TokenType tokenType;
+	if( type == "VERB" ) {
+		tokenType = Token::TokenType::VERB;
+	} else if( type == "NOUN" ) {
+		tokenType = Token::TokenType::NOUN;
+	} else if( type == "LIST_SEPERATOR" ) {
+		tokenType = Token::TokenType::LIST_SEPERATOR;
+	} else if( type == "PUNC" ) {
+		tokenType = Token::TokenType::PUNC;
+	} else if( type == "DATA_TYPE" ) {
+		tokenType = Token::TokenType::DATA_TYPE;
+	} else {
+		assert(true);
+	}
+	Token_ptr newToken = std::make_shared<Token>(tokenType, name);
 	tokenMap.insert(std::pair<std::string, Token_ptr>(name, newToken));
+	return newToken;
 }
 
 Token_ptr const TokenPool::GetToken(const std::string& name) const {

@@ -21,6 +21,7 @@
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenPool.h" />
     <ClInclude Include="World.h" />
+    <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenPool.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\importer.dict" />

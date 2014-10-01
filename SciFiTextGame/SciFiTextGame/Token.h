@@ -8,7 +8,8 @@ public:
 		VERB,
 		NOUN,
 		LIST_SEPERATOR,
-		COMMAND_SEPERATOR
+		PUNC,
+		DATA_TYPE
 	};
 
 	Token( TokenType type, std::string property );

@@ -12,11 +12,16 @@ public:
 	/* This is used to initially build the grammar tree. */
 	void AddNode(Token_ptr const token, const std::string& alias);
 
+	void AddNodeWithString(std::string line);
+
 	Token_ptr const Search( const std::string& string ) const;
 	
-	/* This converts a stream to a vector of tokens.  The command string will be destroyed in the process. */
+	/* This converts a string to a vector of tokens.  The command string will be destroyed in the process. */
 	std::vector<Token_ptr> Tokenize(std::string& command) const;
-	
+
+	/* Builds the tree using a datafile*/
+	void BuildTreeWithFile(std::string fileName);
+
 private:
 	/* This recursively walks the tree and adds the node at the correct place. */
 	void AddNode_r(Node_ptr node, Token_ptr const token, const std::string& alias);
