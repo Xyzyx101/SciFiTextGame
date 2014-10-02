@@ -14,9 +14,9 @@ public:
 
 	Token( TokenType type, std::string property );
 	~Token();
-	TokenType GetType() const;
-	const std::string& GetName() const;
+	TokenType					GetType() const;
+	const std::string&			GetName() const;
 private:
-	TokenType			type;
-	const std::string	property;
+	TokenType					type;
+	const std::string			property;
 };

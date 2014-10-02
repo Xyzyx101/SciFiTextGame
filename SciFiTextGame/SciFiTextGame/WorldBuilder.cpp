@@ -1,19 +1,32 @@
 #include "WorldBuilder.h"
 #include"GrammarTree.h"
 #include<fstream>
+#include<memory>
 
 WorldBuilder::WorldBuilder() : 
-grammarTree(NULL) {}
+grammarTree( std::make_shared<GrammarTree>( ) ) {}
 
 WorldBuilder::~WorldBuilder() {
-	delete grammarTree;
 }
 
-void WorldBuilder::InitWithFile(const std::string& filename) {
-	grammarTree = new GrammarTree();
+void WorldBuilder::InitGrammarWithFile(const std::string& dictFileName) {
 	grammarTree->AddDictionary("importer.dict");		
 }
 
-void WorldBuilder::BuildWorld( const std::string&, World& world ) const {
+void WorldBuilder::Build( const std::string&, World& world ) {
+	tokenList = TokenizeFile();
+	syntaxTree = BuildSyntaxTree(tokenList);
+	BuildWorldTree(world, syntaxTree);
+}
+
+std::list<Token_ptr> WorldBuilder::TokenizeFile( std::ifstream& dataFile ) {
+
+}
+
+std::shared_ptr<SyntaxTree>	WorldBuilder::BuildSyntaxTree( std::list<Token_ptr>& tokenList ) {
+
+}
+
+void WorldBuilder::BuildWorldTree( World& world, std::shared_ptr<SyntaxTree> syntaxTree ) {
 
 }
