@@ -22,7 +22,7 @@ public:
 
 private:
 	/* Convert a file stream into a list of tokens */
-	std::list<Token_ptr>			TokenizeFile( std::ifstream& dataFile );
+	std::list<Token_ptr>			TokenizeFile(const std::string& dataFile );
 
 	/* Converts the list of tokens into a syntax tree */
 	std::shared_ptr<SyntaxTree>		BuildSyntaxTree( std::list<Token_ptr>& tokenList );

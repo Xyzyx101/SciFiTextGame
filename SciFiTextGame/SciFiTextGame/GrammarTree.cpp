@@ -2,7 +2,6 @@
 #include "GrammarTree_Node.h"
 #include "GrammarTree_Edge.h"
 #include"TokenPool.h"
-#include<vector>
 #include<cctype>
 #include<fstream>
 #include<string>
@@ -62,8 +61,8 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 	}
 }
 
-std::vector<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
-	std::vector<Token_ptr> tokens;
+std::list<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
+	std::list<Token_ptr> tokens;
 	/* As the sentance is tokenized we remove the used parts of the command string. */
 	while( command.length() > 0 ) {
 		Token_ptr token = Find_r( root, command );

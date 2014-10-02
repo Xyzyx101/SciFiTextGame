@@ -18,6 +18,7 @@
     <ClInclude Include="GrammarTree_Node.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="SyntaxTree.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenPool.h" />
     <ClInclude Include="World.h" />
@@ -31,6 +32,7 @@
     <ClCompile Include="GrammarTree_Node.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="SyntaxTree.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenPool.cpp" />
     <ClCompile Include="World.cpp" />
