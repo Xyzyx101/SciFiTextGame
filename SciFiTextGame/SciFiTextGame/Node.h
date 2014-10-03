@@ -4,8 +4,7 @@
 #include<vector>
 #include"CommonTypes.h"
 
-/* This an Node of a graph.  Making the properties public in this case is
-safe because it is never exposed beyond. */
+/* FIXME */
 class Node {
 public:
 	Node();

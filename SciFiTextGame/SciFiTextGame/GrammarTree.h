@@ -26,8 +26,13 @@ private:
 	/* This recursively decend into the tree and return a token or nullptr if there is no matching entry. */
 	Token_ptr					Find_r(Node_ptr node, std::string& command) const;
 
+	/* This parses a string from the data file and creates a string token. */
+	Token_ptr					GetStringToken(std::string& command) const;
+
 	/* This parses one line, adds the token to the token pool and adds the node to grammar tree. */
 	void						AddNodeWithString( const std::string& line );
+
+	void						RemoveLeadingWhitespace(std::string& command) const;
 
 	Node_ptr					root;
 };
