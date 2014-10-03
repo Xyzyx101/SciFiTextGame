@@ -1,4 +1,5 @@
 #pragma once
+#include"CommonTypes.h"
 #include<string>
 #include<memory>
 #include<list>

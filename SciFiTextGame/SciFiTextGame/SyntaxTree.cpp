@@ -1,15 +1,16 @@
 #include"SyntaxTree.h"
 #include"CommonTypes.h"
+#include "Node.h"
 #include<memory>
 
 SyntaxTree::SyntaxTree() {
-	root = std::make_shared<Node_ptr>();
+	root = std::make_shared<Node>();
 }
 
 SyntaxTree::~SyntaxTree() {}
 
 Node_ptr SyntaxTree::GetCurrentNode() {
-	return current;
+	return std::make_shared<Node>();
 }
 
 void SyntaxTree::NextSibling() {

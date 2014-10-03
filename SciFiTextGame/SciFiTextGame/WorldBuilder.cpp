@@ -1,5 +1,6 @@
 #include "WorldBuilder.h"
 #include"GrammarTree.h"
+#include"SyntaxTree.h"
 #include<fstream>
 #include<memory>
 #include<string>
@@ -35,7 +36,7 @@ std::list<Token_ptr> WorldBuilder::TokenizeFile( const std::string& dataFile ) {
 }
 
 std::shared_ptr<SyntaxTree>	WorldBuilder::BuildSyntaxTree( std::list<Token_ptr>& tokenList ) {
-	
+	return std::make_shared<SyntaxTree>();
 }
 
 void WorldBuilder::BuildWorldTree( World& world, std::shared_ptr<SyntaxTree> syntaxTree ) {

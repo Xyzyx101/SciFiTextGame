@@ -1,6 +1,6 @@
 #include "GrammarTree.h"
-#include "GrammarTree_Node.h"
-#include "GrammarTree_Edge.h"
+#include "Node.h"
+#include "Edge.h"
 #include"TokenPool.h"
 #include<cctype>
 #include<fstream>

@@ -7,8 +7,8 @@
 
 int main() {
 	WorldBuilder wb;
-	wb.InitWithFile( "importer.dict" );
-	wb.BuildWorld( "world.data", World::Instance() );
+	wb.InitGrammarWithFile( "importer.dict" );
+	wb.Build( "world.data", World::Instance() );
 	system("pause");
 
 	return 0;
@@ -36,6 +36,6 @@ void testGT() {
 		std::string command;
 		std::getline( std::cin, command );
 
-		std::vector<Token_ptr> test = gt.Tokenize( command );
+		std::list<Token_ptr> test = gt.Tokenize( command );
 	} while( true );
 }
