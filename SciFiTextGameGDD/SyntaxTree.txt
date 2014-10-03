@@ -1,0 +1,8 @@
+if name
+	InsertAndMove node(cockpit, name)
+if type
+	InsertNode(room, type
+if desc
+	InsertNode(desc, "the room desc")
+if exits
+	InsertNode(null, exits)
