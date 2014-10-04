@@ -9,7 +9,8 @@ public:
 		NOUN,
 		LIST_SEPERATOR,
 		PUNC,
-		DATA_TYPE
+		DATA_TYPE,
+		STRING
 	};
 
 	Token( TokenType type, std::string property );
