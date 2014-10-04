@@ -11,6 +11,6 @@ Token::TokenType Token::GetType() const {
 	return type;
 }
 
-const std::string& Token::GetName() const {
+const std::string& Token::GetProperty() const {
 	return property;
 }

@@ -1,38 +1,39 @@
 #include"SyntaxTree.h"
 #include"CommonTypes.h"
-#include "Node.h"
+#include"Node.h"
+#include"Edge.h"
 #include<memory>
 
 SyntaxTree::SyntaxTree() {
 	root = std::make_shared<Node>();
+	currentNode = root;
 }
 
 SyntaxTree::~SyntaxTree() {}
 
-Node_ptr SyntaxTree::GetCurrentNode() {
-	return std::make_shared<Node>();
-}
-
-void SyntaxTree::NextSibling() {
-
-}
-
-void SyntaxTree::MoveToChild() {
-
+void SyntaxTree::Reset() {
+	currentNode = root;
+	while( !parentStack.empty() ) {
+		parentStack.pop();
+	}
 }
 
 void SyntaxTree::MoveToParent() {
-
+	if( currentNode == root ) {
+		return;
+	}
+	currentNode = parentStack.top();
+	parentStack.pop();
 }
 
-void SyntaxTree::Reset() {
-
+void SyntaxTree::InsertChild( Edge_ptr newEdge ) {
+	currentNode->children.push_back( newEdge );
 }
 
-void InsertSibling(Node_ptr newNode) {
-
+void SyntaxTree::InsertChildAndMakeCurrent( Edge_ptr newEdge ) {
+	InsertChild(newEdge);
+	parentStack.push(currentNode);
+	currentNode = newEdge->node;
 }
 
-void InsertChild(Node_ptr newNode) {
 
-}

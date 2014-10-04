@@ -1,21 +1,17 @@
 #pragma once
 #include"CommonTypes.h"
-#include<vector>
+#include<stack>
 
 class SyntaxTree {
 public:
 	SyntaxTree();
 	~SyntaxTree();
-	Node_ptr							GetCurrentNode();
-	void								NextSibling();
-	void								MoveToChild();
-	void								MoveToParent();
-	void								Reset();
-	void								InsertSibling(Node_ptr newNode);
-	void								InsertChild(Node_ptr newNode);
+	void MoveToParent();
+	void InsertChild(Edge_ptr);
+	void InsertChildAndMakeCurrent( Edge_ptr );
+	void Reset();
 private:
 	Node_ptr							root;
 	Node_ptr							currentNode;
-	std::vector<Edge_ptr>::iterator		currentEdge;
-	Node_ptr							currentParent;
+	std::stack<Node_ptr>				parentStack;
 };

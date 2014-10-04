@@ -1,39 +1,44 @@
 name : "cockpit" {
-	type : room;
-	description : "A cockpit of a spaceship";
-	long_description : "Full of blinking lights and shit.  To the south is a door";
+	type : room,
+	description : "A cockpit of a spaceship",
+	long_description : "Full of blinking lights and shit.  To the south is a door",
 	exits : {
 		name : "cargo_bay" {
-			"door",
-			"south"
+			alias : "door",
+			alias : "south"
 		}
-	}
+	},
 	children : {
-		name : "computer",
-		name : "player"
+		name : "computer" {
+			alias : "computer",
+			alias : "box of blinking lights"
+		},
+		name : "player" {
+			alias : "player"
+		}	
 	}
 }
 
 name : "cargo_bay" {
-	type : room;
-	description : "A cargo bay";
-	long_description : "The cargobay is full of stuff. There is a door to the north.";
+	type : room,
+	description : "A cargo bay",
+	long_description : "The cargobay is full of stuff. There is a door to the north.",
 	exits : {
 		name : "cockpit" {
-			"door",
-			"north"
+			alias : "door",
+			alias : "north"
 		}
 	}
 }
 
 name : "computer" {
-	type : object;
-	description : "The computer has buttons";
-	long_description : "The computer has long buttons";
+	type : object,
+	description : "The computer has buttons",
+	long_description : "The computer has long buttons",
 }
 
 name : "player" {
-	type : player;
-	description : "The player";
-	long_description : "The player long";
+	type : player,
+	description : "The player",
+	long_description : "The player long",
 }
