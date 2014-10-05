@@ -34,12 +34,12 @@ void WorldBuilder::TokenizeFile( const std::string& dataFile ) {
 	if( !file.good() ) {
 		std::cout << std::endl << "Error opening file <" << dataFile << ">" << std::endl;
 	} else {
-		std::string line, fileString;
-		while( !file.eof() ) {
-			std::getline( file, line );
-			fileString += line;
-			fileString += " ";
-		}
+		file.seekg( 0, std::ios::end );
+		size_t fileSize = file.tellg();
+		file.seekg( 0, std::ios::beg );
+		std::string fileString( fileSize, ' ' );
+		file.read( &fileString[0], fileSize );
+		file.close();
 		tokenList = grammarTree->Tokenize( fileString );
 	}
 }
@@ -75,7 +75,7 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 		syntaxTree->InsertChild( newEdge );
 		tokenList.pop_front();
 		syntaxTree->MoveToParent();
-	} else if( nextToken == TOKEN( "DESCTRIPTION" )
+	} else if( nextToken == TOKEN( "DESCRIPTION" )
 			   || nextToken == TOKEN( "LONG_DESCRIPTION" )
 			   || nextToken == TOKEN( "ALIAS" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
@@ -90,7 +90,7 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 		Edge_ptr newEdge = std::make_shared<Edge>( "", newNode );
 		syntaxTree->InsertChildAndMakeCurrent( newEdge );
 	} else {
-		std::cout << "Error parsing token list.  Unexpected token " << nextToken->GetProperty();
+		std::cout << "Error parsing token list.  Unexpected token " << nextToken->GetProperty() << " " << std::endl;
 	}
 }
 
