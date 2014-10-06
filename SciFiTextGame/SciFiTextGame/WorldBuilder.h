@@ -48,6 +48,7 @@ private:
 	void AddObjectToDictionary( const std::string& name) const;
 	void CreateWorldTreeStructure();
 	void AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) const;
+	void UpdateRoomChildren(GameObject_ptr room, Node_ptr exitsNode) const;
 
 	std::shared_ptr<GrammarTree>	grammarTree;
 	std::list<Token_ptr>			tokenList;

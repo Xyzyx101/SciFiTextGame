@@ -39,7 +39,7 @@ void WorldBuilder::TokenizeFile( const std::string& dataFile ) {
 		std::cout << std::endl << "Error opening file <" << dataFile << ">" << std::endl;
 	} else {
 		file.seekg( 0, std::ios::end );
-		size_t fileSize = static_cast<size_t>(file.tellg());
+		size_t fileSize = static_cast<size_t>( file.tellg() );
 		file.seekg( 0, std::ios::beg );
 		std::string fileString( fileSize, ' ' );
 		file.read( &fileString[0], fileSize );
@@ -64,7 +64,7 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 	if( nextToken == TOKEN( "NAME" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
-		Edge_ptr newEdge = std::make_shared<Edge>( (*tokenList.begin())->GetProperty(), newNode );
+		Edge_ptr newEdge = std::make_shared<Edge>( ( *tokenList.begin() )->GetProperty(), newNode );
 		syntaxTree->InsertChildAndMakeCurrent( newEdge );
 		tokenList.pop_front();
 	} else if( nextToken == TOKEN( "TYPE" ) ) {
@@ -79,15 +79,15 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 		syntaxTree->InsertChild( newEdge );
 		syntaxTree->MoveToParent();
 	} else if( nextToken == TOKEN( "DESCRIPTION" )
-			   || nextToken == TOKEN( "LONG_DESCRIPTION" )
-			   || nextToken == TOKEN( "ALIAS" ) ) {
+		|| nextToken == TOKEN( "LONG_DESCRIPTION" )
+		|| nextToken == TOKEN( "ALIAS" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
-		Edge_ptr newEdge = std::make_shared<Edge>( (*tokenList.begin())->GetProperty(), newNode );
+		Edge_ptr newEdge = std::make_shared<Edge>( ( *tokenList.begin() )->GetProperty(), newNode );
 		syntaxTree->InsertChild( newEdge );
 		tokenList.pop_front();
 	} else if( nextToken == TOKEN( "EXITS" )
-			   || nextToken == TOKEN( "CHILDREN" ) ) {
+		|| nextToken == TOKEN( "CHILDREN" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
 		Edge_ptr newEdge = std::make_shared<Edge>( "", newNode );
@@ -137,17 +137,17 @@ void WorldBuilder::AddAllObjectsToWorld() {
 	std::vector<Edge_ptr> allObjects = syntaxTree->GetChildren();
 	std::vector<Edge_ptr>::iterator allObjectsIter = allObjects.begin();
 	while( allObjectsIter != allObjects.end() ) {
-		name = (*allObjectsIter)->prefix;
-		Node_ptr thisObject = (*allObjectsIter)->node;
+		name = ( *allObjectsIter )->prefix;
+		Node_ptr thisObject = ( *allObjectsIter )->node;
 		std::vector<Edge_ptr>::iterator propertyIter = thisObject->children.begin();
 		while( propertyIter != thisObject->children.end() ) {
-			Token_ptr propToken = (*propertyIter)->node->token;
+			Token_ptr propToken = ( *propertyIter )->node->token;
 			if( propToken == TOKEN( "TYPE" ) ) {
-				type = (*propertyIter)->node->children[0]->node->token;
+				type = ( *propertyIter )->node->children[0]->node->token;
 			} else if( propToken == TOKEN( "DESCRIPTION" ) ) {
-				description = (*propertyIter)->prefix;
+				description = ( *propertyIter )->prefix;
 			} else if( propToken == TOKEN( "LONG_DESCRIPTION" ) ) {
-				longDescription = (*propertyIter)->prefix;
+				longDescription = ( *propertyIter )->prefix;
 			}
 			++propertyIter;
 		}
@@ -190,28 +190,28 @@ void WorldBuilder::CreateWorldTreeStructure() {
 	std::vector<Edge_ptr> allObjects = syntaxTree->GetChildren();
 	std::vector<Edge_ptr>::iterator allObjectsIter = allObjects.begin();
 	while( allObjectsIter != allObjects.end() ) {
-		name = (*allObjectsIter)->prefix;
-		Node_ptr thisObject = (*allObjectsIter)->node;
+		name = ( *allObjectsIter )->prefix;
+		Node_ptr thisObject = ( *allObjectsIter )->node;
 		std::vector<Edge_ptr>::iterator propertyIter = thisObject->children.begin();
 		while( propertyIter != thisObject->children.end() ) {
-			Token_ptr propToken = (*propertyIter)->node->token;
+			Token_ptr propToken = ( *propertyIter )->node->token;
 			if( propToken == TOKEN( "TYPE" ) ) {
-				type = (*propertyIter)->node->children[0]->node->token;
+				type = ( *propertyIter )->node->children[0]->node->token;
 				if( type != TOKEN( "ROOM" ) ) {
 					break;
 				}
 			} else if( propToken == TOKEN( "EXITS" ) ) {
 				GameObject_ptr currentRoom = World::Instance().GetObjectFromToken( TOKEN( name ) );
-				Node_ptr exitsNode = (*propertyIter)->node;
+				Node_ptr exitsNode = ( *propertyIter )->node;
 				AddExitsToRoom( currentRoom, exitsNode );
 			} else if( propToken == TOKEN( "CHILDREN" ) ) {
-
+				GameObject_ptr currentRoom = World::Instance().GetObjectFromToken( TOKEN( name ) );
+				Node_ptr childrenNode = ( *propertyIter )->node;
+				UpdateRoomChildren( currentRoom, childrenNode );
 			}
 			++propertyIter;
 		}
-
-		// FIXME AddObjectToDictionary( name );
-
+		AddObjectToDictionary( name );
 		type = nullptr;
 		name = "";
 		++allObjectsIter;
@@ -224,14 +224,26 @@ void WorldBuilder::AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) con
 	}
 	std::vector<Edge_ptr>::iterator exitIter = exitsNode->children.begin();
 	while( exitIter != exitsNode->children.end() ) {
-		Token_ptr exitToken = TOKEN( (*exitIter)->prefix );
-		std::vector<Edge_ptr>::iterator aliasIter = (*exitIter)->node->children.begin();
-		while( aliasIter != (*exitIter)->node->children.end() ) {
-			std::string alias = (*aliasIter)->prefix;
-			// FIXME AddObjectToDictionary( alias );
+		Token_ptr exitToken = TOKEN( ( *exitIter )->prefix );
+		std::vector<Edge_ptr>::iterator aliasIter = ( *exitIter )->node->children.begin();
+		while( aliasIter != ( *exitIter )->node->children.end() ) {
+			std::string alias = ( *aliasIter )->prefix;
+			AddObjectToDictionary( alias );
 			std::shared_ptr<Room> thisRoom;
-			thisRoom = std::dynamic_pointer_cast<Room>(room);
-			thisRoom->AddExit( TOKEN(alias), thisRoom );
+			thisRoom = std::dynamic_pointer_cast<Room>( room );
+			thisRoom->AddExit( TOKEN( alias ), thisRoom );
 		}
+	}
+}
+
+void WorldBuilder::UpdateRoomChildren( GameObject_ptr room, Node_ptr childrenNode ) const {
+	if( room->GetType() != GameObject_t::ROOM ) {
+		return;
+	}
+	std::vector<Edge_ptr>::iterator childrenIter = childrenNode->children.begin();
+	while( childrenIter != childrenNode->children.end() ) {
+		Token_ptr childToken = TOKEN( ( *childrenIter )->prefix );
+		GameObject_ptr childObject = World::Instance().GetObjectFromToken( childToken );
+
 	}
 }
