@@ -1,8 +1,11 @@
 #pragma once
 #include"GameObject.h"
+#include"CommonTypes.h"
+
+class Token;
+class GameObject;
 
 /* World is the root of a tree made up of all GameObjects. */
-
 class World {
 public:
 	/* Gets a reference to the one instance of a game world */
@@ -10,25 +13,30 @@ public:
 
 	~World();
 
-	/* Searches the gameworld for an instance of the onject */
-	GameObject_ptr					GetObjectFromName(std::string name) const;
+	/* Searches the gameworld for an instance of the object */
+	GameObject_ptr					GetObjectFromName( std::string name ) const;
+
+	/* Searches the gameworld for an instance of the object */
+	GameObject_ptr					GetObjectFromToken( Token_ptr object ) const;
 
 	/* Searches the game world for a game object.  Returns null if the game
 	object is not in the current room or player inventory */
-	GameObject_ptr					GetLocalObject(std::string name) const;
-
+	GameObject_ptr					GetLocalObject( Token_ptr object ) const;
 
 	/* Gets a pointer to the player */
 	GameObject_ptr					GetPlayer() const;
 
+	/* Adds an object to the world at the root of the world tree */
+	void							AddObject( GameObject_ptr object );
+
 	/* Adds an object to the world at the location passed to the function */
-	void							AddObject(GameObject_ptr);
+	void							AddObject( GameObject_ptr object, GameObject_ptr newParent );
 
 	/* Moves an object from its current location to the location passed in */
-	bool							MoveObject(GameObject_ptr object, GameObject_ptr newParent);
+	bool							MoveObject( GameObject_ptr object, GameObject_ptr newParent );
 private:
 	static World instance;
-	World( );
+	World();
 	std::vector<GameObject_ptr>		children;
 	GameObject_ptr					player;
 };

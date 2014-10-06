@@ -3,7 +3,7 @@
 
 class Player : public GameObject {
 public:
-	Player(std::string name, GameObject_ptr parent, std::string description, std::string longDescription);
+	Player(std::string name, std::string description, std::string longDescription);
 	virtual ~Player();
 };
 

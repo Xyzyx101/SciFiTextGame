@@ -2,9 +2,7 @@
 #include<string>
 #include<vector>
 #include<memory>
-
-class GameObject;
-typedef std::shared_ptr<GameObject> GameObject_ptr;
+#include"CommonTypes.h"
 
 enum GameObject_t {
 	OBJECT,
@@ -15,8 +13,8 @@ enum GameObject_t {
 class GameObject {
 public:
 	/* Adding an object with a null parent will use the world as the parent. */
-	GameObject(std::string name, GameObject_ptr parent, std::string description, std::string longDescription);
-	~GameObject();
+	GameObject(std::string name, std::string description, std::string longDescription);
+	virtual ~GameObject();
 	const std::string&				GetName() const;
 	const std::string&				GetDescription() const;
 	const std::string&				GetLongDescription() const;

@@ -1,8 +1,7 @@
 #include"GameObject.h"
 
-GameObject::GameObject(std::string name, GameObject_ptr parent, std::string description, std::string longDescription) :
+GameObject::GameObject(std::string name, std::string description, std::string longDescription) :
 name(name),
-parent(parent),
 description(description),
 longDescription(longDescription) {
 }

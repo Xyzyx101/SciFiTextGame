@@ -1,12 +1,16 @@
 #include<memory>
 
 class Token;
-typedef		std::shared_ptr<const Token>	Token_ptr;
+typedef	std::shared_ptr<const Token>	Token_ptr;
 
 class Node;
-typedef		std::shared_ptr<Node>			Node_ptr;
+typedef	std::shared_ptr<Node>			Node_ptr;
 
 class Edge;
-typedef		std::shared_ptr<Edge>			Edge_ptr;
+typedef	std::shared_ptr<Edge>			Edge_ptr;
 
+class GameObject;
+typedef std::shared_ptr<GameObject>		GameObject_ptr;
 
+class Room;
+typedef std::shared_ptr<Room>			Room_ptr;

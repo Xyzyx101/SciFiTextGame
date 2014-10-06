@@ -36,4 +36,6 @@ void SyntaxTree::InsertChildAndMakeCurrent( Edge_ptr newEdge ) {
 	currentNode = newEdge->node;
 }
 
-
+std::vector<Edge_ptr> SyntaxTree::GetChildren() const {
+	return currentNode->children;
+}

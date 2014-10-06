@@ -43,6 +43,12 @@ private:
 	/* Actually builds the game world */
 	void							BuildWorldTree();
 
+	void AddAllObjectsToWorld();
+	void AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription ) const;
+	void AddObjectToDictionary( const std::string& name) const;
+	void CreateWorldTreeStructure();
+	void AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) const;
+
 	std::shared_ptr<GrammarTree>	grammarTree;
 	std::list<Token_ptr>			tokenList;
 	std::shared_ptr<SyntaxTree>		syntaxTree;
