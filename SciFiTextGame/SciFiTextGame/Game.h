@@ -19,6 +19,22 @@ private:
 	void ExecuteCommand();
 	void Win();
 	void Die();
+	void IncrementScore( int scoreIncrease );
+	void GetScore() const;
+	void DropCommand();
+	void ExamineCommand();
+	void GoCommand();
+	void InventoryCommand();
+	void LookCommand();
+	void OpenCommand();
+	void PutCommand();
+	void QuitCommand();
+	void ScoreCommand();
+	void TakeCommand();
 	std::shared_ptr<GrammarTree> grammarTree;
+	std::list<Token_ptr> tokenList;
+	bool gameOver;
+	int									score;
+	
 };
 

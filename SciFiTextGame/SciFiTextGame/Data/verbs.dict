@@ -1,28 +1,28 @@
-activate USE
-answer SAY
-climb CLIMB
-close CLOSE
-drop DROP
-enter GO
-examine EXAMINE
-exit GO
-go GO
-inventory INVENTORY
-i INVENTORY
-look LOOK
-l LOOK
-move GO
-open OPEN
-pick up TAKE
-put PUT
-put down DROP
-quit QUIT
-read READ
-say SAY
-score SCORE
-search EXAMINE
-take TAKE
-turn on USE
-touch TOUCH
-use USE
-walk WALK
+"activate" VERB USE
+"answer" VERB SAY
+"climb" VERB CLIMB
+"close" VERB CLOSE
+"drop" VERB DROP
+"enter" VERB GO
+"examine" VERB EXAMINE
+"exit" VERB GO
+"go" VERB GO
+"inventory" VERB INVENTORY
+"i" VERB INVENTORY
+"look" VERB LOOK
+"l" VERB LOOK
+"move" VERB GO
+"open" VERB OPEN
+"pick" VERB up TAKE
+"put" VERB PUT
+"put" VERB down DROP
+"quit" VERB QUIT
+"read" VERB READ
+"say" VERB SAY
+"score" VERB SCORE
+"search" VERB EXAMINE
+"take" VERB TAKE
+"turn on" VERB USE
+"touch" VERB TOUCH
+"use" VERB USE
+"walk" VERB WALK
