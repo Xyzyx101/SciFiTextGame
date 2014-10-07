@@ -5,10 +5,14 @@
 #include"World.h"
 #include <iostream>
 
+void testGT();
+
 int main() {
 	WorldBuilder wb;
-	wb.InitGrammarWithFile( "importer.dict" );
-	wb.Build( "world.data", World::Instance() );
+	//wb.InitGrammarWithFile( "importer.dict" );
+	//wb.Build( "world.data", World::Instance() );
+	testGT();
+
 	system("pause");
 
 	return 0;
@@ -23,6 +27,7 @@ void testGT() {
 	TokenPool::Instance( ).NewToken( "VERB", "beer" );
 
 	GrammarTree gt;
+	gt.AddNode( TOKEN( "bacon" ), "bacon" );
 	gt.AddNode( TOKEN( "bacon" ), "bacon" );
 	gt.AddNode( TOKEN( "cheese" ), "cheese" );
 	gt.AddNode( TOKEN( "bar" ), "bar" );

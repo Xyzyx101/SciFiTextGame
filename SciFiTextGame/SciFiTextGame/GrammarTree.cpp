@@ -18,6 +18,11 @@ void GrammarTree::AddNode( Token_ptr const token, const std::string& alias ) {
 }
 
 void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::string& alias ) {
+	/* alias will be "" when you try to add a node that already exists. */
+	if( alias.length() == 0 ) {
+		/* Adding the same node twice should have no effect */
+		return;
+	}
 	std::vector<Edge_ptr>::iterator edgeIter = node->children.begin();
 	/* Partial hold letters we have found so far */
 	std::string partial = "";

@@ -9,7 +9,7 @@ public:
 	GrammarTree();
 	~GrammarTree();
 
-	/* This is used to initially build the grammar tree. */
+	/* This is used to initially build the grammar tree.  Adding the same node more than onece is idempotent. */
 	void						AddNode(Token_ptr const token, const std::string& alias);
 		
 	/* This converts a string to a vector of tokens.  The command string will be destroyed in the process. */
