@@ -6,3 +6,11 @@ Room::Room(std::string name, std::string description, std::string longDescriptio
 {}
 
 Room::~Room() {}
+
+Room_ptr Room::GetExit( Token_ptr alias ) const {
+	return exits.find(alias)->second;
+}
+
+void Room::AddExit( Token_ptr alias, Room_ptr newExit ) {
+	exits.insert( std::pair<Token_ptr, Room_ptr>(alias, newExit ) );
+}

@@ -155,14 +155,16 @@ void GrammarTree::AddDictionary( const std::string& dictFile ) {
 }
 
 void GrammarTree::AddNodeWithString( const std::string& line ) {
-	int firstSpace, lastSpace;
-	firstSpace = line.find_first_of( ' ' );
-	lastSpace = line.find_last_of( ' ' );
-
 	std::string alias, type, token;
-	alias = line.substr( 0, firstSpace );
-	type = line.substr( firstSpace + 1, lastSpace - firstSpace - 1 );
-	token = line.substr( lastSpace + 1 );
+	int firstQuote, lastQuote;
+	firstQuote = line.find_first_of( '"' );
+	lastQuote = line.find_last_of( '"' );
+	alias = line.substr( firstQuote + 1, lastQuote - firstQuote - 1 );
+		
+	int typeStart = lastQuote + 1 + line.substr( lastQuote + 1, std::string::npos).find_first_not_of(" \n\t" );
+	int lastSpace = line.find_last_of( ' ' );
+	type = line.substr(typeStart, lastSpace - typeStart);
+	token = line.substr(lastSpace + 1);
 
 	Token_ptr newToken = TokenPool::Instance().NewToken( type, token );
 	AddNode( newToken, alias );
@@ -170,7 +172,7 @@ void GrammarTree::AddNodeWithString( const std::string& line ) {
 
 void GrammarTree::RemoveLeadingWhitespace( std::string& command ) const {
 	std::string::iterator commandIter = command.begin();
-	while( commandIter!= command.end() && std::isspace( *commandIter ) ) {
+	while( commandIter != command.end() && std::isspace( *commandIter ) ) {
 		++commandIter;
 	}
 	command = std::string( commandIter, command.end() );

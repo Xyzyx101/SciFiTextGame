@@ -14,3 +14,6 @@ typedef std::shared_ptr<GameObject>		GameObject_ptr;
 
 class Room;
 typedef std::shared_ptr<Room>			Room_ptr;
+
+class Player;
+typedef std::shared_ptr<Player>			Player_ptr;
