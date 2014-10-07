@@ -9,9 +9,10 @@ void testGT();
 
 int main() {
 	WorldBuilder wb;
-	//wb.InitGrammarWithFile( "importer.dict" );
-	//wb.Build( "world.data", World::Instance() );
-	testGT();
+	wb.InitGrammarWithFile( "importer.dict" );
+	wb.Build( "world.data", World::Instance() );
+		
+	//testGT();
 
 	system("pause");
 

@@ -1,4 +1,5 @@
-#include "WorldBuilder.h"
+#include"WorldBuilder.h"
+#include"Game.h"
 #include"GrammarTree.h"
 #include"SyntaxTree.h"
 #include"Token.h"
@@ -178,9 +179,7 @@ void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, co
 
 void WorldBuilder::AddObjectToDictionary( const std::string& name ) const {
 	Token_ptr newToken = TokenPool::Instance().NewToken( "NOUN", name );
-
-	//TODO add new token to the grammar tree
-
+	Game::Instance( ).AddNodeToGrammarTree(newToken, name);
 }
 
 void WorldBuilder::CreateWorldTreeStructure() {
