@@ -32,6 +32,7 @@ GameObject_ptr World::GetObjectFromName( std::string name ) const {
 }
 
 GameObject_ptr World::GetObjectFromToken( Token_ptr objectToken ) const {
+	//FIXME
 	auto x = allObjects.find( objectToken );
 	if( x == allObjects.end() ) {
 		int q = 0;

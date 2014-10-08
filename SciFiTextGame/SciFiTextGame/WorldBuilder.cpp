@@ -157,11 +157,10 @@ void WorldBuilder::AddAllObjectsToWorld() {
 			} else if( propToken == TOKEN( "CAN_BE_PICKED_UP" ) ) {
 				canBePickedUp = true;
 			}
-
 			++propertyIter;
 		}
 		AddObjectToWorld( type, name, description, longDescription, canBePickedUp );
-		AddObjectToDictionary( name );
+		AddObjectToDictionary( "NOUN", name );
 		type = nullptr;
 		name = description = longDescription = "";
 		++allObjectsIter;
@@ -176,7 +175,7 @@ void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, co
 		newObject = std::make_shared<Player>( name, description, longDescription );
 	} else if( type == TOKEN( "OBJECT" ) ) {
 		newObject = std::make_shared<GameObject>( name, description, longDescription );
-		newObject->SetCanBePickedUp(canBePickedUp);
+		newObject->SetCanBePickedUp( canBePickedUp );
 	} else {
 		std::cout << "Error unknown object type" << std::endl;
 	}
@@ -186,8 +185,8 @@ void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, co
 }
 
 
-void WorldBuilder::AddObjectToDictionary( const std::string& name ) const {
-	Token_ptr newToken = TokenPool::Instance().NewToken( "NOUN", name );
+void WorldBuilder::AddObjectToDictionary( const std::string& type, const std::string& name ) const {
+	Token_ptr newToken = TokenPool::Instance().NewToken( type, name );
 	Game::Instance().AddNodeToGrammarTree( newToken, name );
 }
 
@@ -219,7 +218,7 @@ void WorldBuilder::CreateWorldTreeStructure() {
 			}
 			++propertyIter;
 		}
-		AddObjectToDictionary( name );
+		AddObjectToDictionary( "NOUN", name );
 		type = nullptr;
 		name = "";
 		++allObjectsIter;
@@ -236,9 +235,15 @@ void WorldBuilder::AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) con
 		std::vector<Edge_ptr>::iterator aliasIter = (*exitIter)->node->children.begin();
 		while( aliasIter != (*exitIter)->node->children.end() ) {
 			std::string alias = (*aliasIter)->prefix;
-			AddObjectToDictionary( alias );
-			std::shared_ptr<Room> thisRoom = std::dynamic_pointer_cast<Room>(room);
-			thisRoom->AddExit( TOKEN( alias ), thisRoom );
+			AddObjectToDictionary( "EXIT", alias );
+			GameObject_ptr exitObject = World::Instance( ).GetObjectFromToken(exitToken);
+			Room_ptr exitRoom = std::dynamic_pointer_cast<Room>(exitObject);
+			Room_ptr thisRoom = std::dynamic_pointer_cast<Room>(room);
+			if( exitRoom == nullptr || thisRoom == nullptr ) {
+				std::cout << "Error parsing exits for " << room->GetName() << std::endl;
+			} else {
+				thisRoom->AddExit( TOKEN( alias ), exitRoom );
+			}
 			++aliasIter;
 		}
 		++exitIter;

@@ -1,11 +1,10 @@
 "activate" VERB USE
-"answer" VERB SAY
-"climb" VERB CLIMB
 "close" VERB CLOSE
 "drop" VERB DROP
 "enter" VERB GO
 "examine" VERB EXAMINE
 "exit" VERB GO
+"get" VERB GET
 "go" VERB GO
 "i" VERB INVENTORY
 "inventory" VERB INVENTORY
@@ -13,16 +12,24 @@
 "l" VERB LOOK
 "move" VERB GO
 "open" VERB OPEN
-"pick" VERB up TAKE
-"put" VERB PUT
+"pick up" VERB GET
+"put" VERB USE
 "put down" VERB DROP
 "quit" VERB QUIT
-"read" VERB READ
-"say" VERB SAY
 "score" VERB SCORE
 "search" VERB EXAMINE
-"take" VERB TAKE
+"take" VERB GET
 "turn on" VERB USE
-"touch" VERB TOUCH
 "use" VERB USE
-"walk" VERB WALK
+"n" EXIT N
+"s" EXIT S
+"e" EXIT E
+"w" EXIT W
+"u" EXIT U
+"d" EXIT D
+"south" EXIT SOUTH
+"north" EXIT NORTH
+"east" EXIT EAST
+"west" EXIT WEST
+"up" EXIT UP
+"down" EXIT DOWN

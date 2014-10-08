@@ -23,7 +23,7 @@ public:
 
 private:
 	/* Convert a file stream into a list of tokens */
-	void							TokenizeFile(const std::string& dataFile );
+	void							TokenizeFile( const std::string& dataFile );
 
 	/* Converts the list of tokens into a syntax tree */
 	void							BuildSyntaxTree();
@@ -32,7 +32,7 @@ private:
 	tokens are removed because data is generally stored as type-value pairs. */
 	void							AddNextToken( Token_ptr nextToken );
 
-	/* This is used to a list of objects to the root or other list of properties to a 
+	/* This is used to a list of objects to the root or other list of properties to a
 	property of an object.  Can be called recursively to add lists of lists. */
 	void							AddList_r();
 
@@ -45,10 +45,10 @@ private:
 
 	void AddAllObjectsToWorld();
 	void AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription, bool canBePickedUp ) const;
-	void AddObjectToDictionary( const std::string& name) const;
+	void AddObjectToDictionary( const std::string& type, const std::string& name ) const;
 	void CreateWorldTreeStructure();
 	void AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) const;
-	void UpdateRoomChildren(GameObject_ptr room, Node_ptr exitsNode) const;
+	void UpdateRoomChildren( GameObject_ptr room, Node_ptr exitsNode ) const;
 
 	std::shared_ptr<GrammarTree>	grammarTree;
 	std::list<Token_ptr>			tokenList;

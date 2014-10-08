@@ -20,13 +20,15 @@ private:
 	void DisplaySimpleRoomContents( Room_ptr room );
 	void GetPlayerInput();
 	void ExecuteCommand();
+	void HandleOneWordMovement( Token_ptr exit );
 	void Win();
 	void Die();
 	void IncrementScore( int scoreIncrease );
 	void GetScore() const;
 	void DropCommand( std::list<Token_ptr> nounList );
 	void ExamineCommand();
-	void GoCommand();
+	void GetCommand( std::list<Token_ptr> nounList );
+	void GoCommand( std::list<Token_ptr> nounList );
 	void InventoryCommand();
 	void LookCommand();
 	void OpenCommand();

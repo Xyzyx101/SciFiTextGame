@@ -37,6 +37,7 @@ void GameObject::RemoveChild( GameObject_ptr child ) {
 	while( childIter != children.end() ) {
 		if( child == *childIter ) {
 			children.erase( childIter );
+			break;
 		}
 		++childIter;
 	}

@@ -9,7 +9,12 @@ Room::Room(std::string name, std::string description, std::string longDescriptio
 Room::~Room() {}
 
 Room_ptr Room::GetExit( Token_ptr alias ) const {
-	return exits.find(alias)->second;
+	auto foundRoom = exits.find( alias );
+	if( foundRoom == exits.end() ) {
+		return nullptr;
+	} else {
+		return foundRoom->second;
+	}
 }
 
 void Room::AddExit( Token_ptr alias, Room_ptr newExit ) {

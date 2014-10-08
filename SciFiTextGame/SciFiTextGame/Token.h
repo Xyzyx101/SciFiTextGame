@@ -10,7 +10,8 @@ public:
 		LIST_SEPERATOR,
 		PUNC,
 		DATA_TYPE,
-		STRING
+		STRING,
+		EXIT
 	};
 
 	Token( TokenType type, std::string property );
