@@ -6,7 +6,6 @@
 ";" PUNC END_LINE
 "name" DATA_TYPE NAME
 "type" DATA_TYPE TYPE
-"object_type" DATA_TYPE OBJECT_TYPE
 "description" DATA_TYPE DESCRIPTION
 "long_description" DATA_TYPE LONG_DESCRIPTION
 "exits" DATA_TYPE EXITS

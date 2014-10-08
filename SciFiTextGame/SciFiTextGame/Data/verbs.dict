@@ -7,8 +7,8 @@
 "examine" VERB EXAMINE
 "exit" VERB GO
 "go" VERB GO
-"inventory" VERB INVENTORY
 "i" VERB INVENTORY
+"inventory" VERB INVENTORY
 "look" VERB LOOK
 "l" VERB LOOK
 "move" VERB GO

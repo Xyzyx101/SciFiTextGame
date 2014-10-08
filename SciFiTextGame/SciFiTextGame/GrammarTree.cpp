@@ -28,7 +28,7 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 	std::string partial = "";
 	while( edgeIter != node->children.end() ) {
 		/* Search through the edges and check if any of the partial alias strings match the alias to be added */
-		std::string edgeString = (*edgeIter)->prefix;
+		std::string edgeString = ( *edgeIter )->prefix;
 		for( size_t i = 0; i < edgeString.length(); ++i ) {
 			if( alias[i] == edgeString[i] ) {
 				partial += alias[i];
@@ -38,7 +38,7 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 		}
 		if( partial == edgeString ) {
 			/* If the matching edge is identical to the start of the alias recurse deeper into the tree */
-			AddNode_r( (*edgeIter)->node, token, alias.substr( partial.length() ) );
+			AddNode_r( ( *edgeIter )->node, token, alias.substr( partial.length() ) );
 			return;
 		} else if( partial != "" ) {
 			/* If the start of the edge prefix matches but not the full length then we are at the correct
@@ -57,19 +57,23 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 	} else {
 		/* If there is a partial match then we need to make a new node with two edges.  One edge for
 		the old branch of the tree and a new one for the new node.*/
-		
-		std::string oldString = (*edgeIter)->prefix;
-		Node_ptr oldNode = (*edgeIter)->node;
-		node->children.erase( edgeIter );
-		Node_ptr splitNode = std::make_shared<Node>();
 
-		
-		std::string newEdge = alias.substr( partial.length( ) );
-		if( newEdge.length() > 0 ) {
+		std::string oldString = ( *edgeIter )->prefix;
+		Node_ptr oldNode = ( *edgeIter )->node;
+		node->children.erase( edgeIter );
+		Node_ptr splitNode;
+
+		std::string newEdge = alias.substr( partial.length() );
+		std::string oldEdge = oldString.substr( partial.length() );
+		if( newEdge.length() == 0 ) {
+			splitNode = std::make_shared<Node>( newNode->token );
+			splitNode->children.push_back( std::make_shared<Edge>( oldEdge, oldNode ) );
+		} else if( oldEdge.length() == 0 ) {
+			splitNode = std::make_shared<Node>( oldNode->token );
 			splitNode->children.push_back( std::make_shared<Edge>( newEdge, newNode ) );
-		}
-		std::string oldEdge = oldString.substr( partial.length( ) );
-		if( oldEdge.length() > 0 ) {
+		} else {
+			splitNode = std::make_shared<Node>();
+			splitNode->children.push_back( std::make_shared<Edge>( newEdge, newNode ) );
 			splitNode->children.push_back( std::make_shared<Edge>( oldEdge, oldNode ) );
 		}
 		node->children.push_back( std::make_shared<Edge>( partial, splitNode ) );
@@ -107,7 +111,7 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string&
 	int foundElements = 0;
 	std::vector<Edge_ptr>::iterator edgeIter = node->children.begin();
 	do {
-		std::string prefix = (*edgeIter)->prefix;
+		std::string prefix = ( *edgeIter )->prefix;
 		for( size_t i = 0; i < prefix.length(); ++i, ++commandIter ) {
 			if( prefix[i] == std::tolower( *commandIter ) ) {
 				++foundElements;
@@ -126,25 +130,25 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string&
 			recurse deeper into the tree. The single letter 's' could return the 'go south'
 			token but we do not want to stop at the beginning of every s word. */
 			command = std::string( commandIter, command.end() );
-			if( (*edgeIter)->node->token != nullptr
-				&& (command.begin() == command.end() || !std::isalpha( *(command.begin()) ))
+			if( ( *edgeIter )->node->token != nullptr
+				&& ( command.begin() == command.end() || !std::isalpha( *( command.begin() ) ) )
 				) {
 				failWord = "";
-				return (*edgeIter)->node->token;
+				return ( *edgeIter )->node->token;
 			} else {
 				failWord += prefix;
-				return Find_r( (*edgeIter)->node, command, failWord );
+				return Find_r( ( *edgeIter )->node, command, failWord );
 			}
 		}
 		++edgeIter;
 	} while( foundElements == 0
-			 && edgeIter != node->children.end()
-			 && commandIter != command.end() );
+		&& edgeIter != node->children.end()
+		&& commandIter != command.end() );
 
 	/* If nothing is found complete the failWord and return nullptr. */
 	commandIter = command.begin();
 	while( commandIter != command.end()
-		   && std::isalpha( *commandIter ) ) {
+		&& std::isalpha( *commandIter ) ) {
 		failWord += *commandIter;
 		++commandIter;
 	}
