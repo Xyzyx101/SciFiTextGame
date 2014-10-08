@@ -1,6 +1,7 @@
 #include"Game.h"
 #include"GrammarTree.h"
 #include"Token.h"
+#include"TokenPool.h"
 #include"World.h"
 #include"GameObject.h"
 #include"Room.h"
@@ -41,7 +42,7 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
 	Room_ptr room = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
-	std::cout << std::endl << std::endl << room->GetDescription( ) << std::endl;
+	std::cout << std::endl << std::endl << room->GetDescription() << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
 	} else {
@@ -93,7 +94,31 @@ void Game::ExecuteCommand() {
 		tokenList.pop_back();
 	}
 	std::string verb = verbToken->GetProperty();
-	if( verb == "DROP" ) {
+	if( verb == "N" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "north" ) );
+		ExecuteCommand();
+	} else if( verb == "S" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "south" ) );
+		ExecuteCommand();
+	} else if( verb == "E" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "east" ) );
+		ExecuteCommand();
+	} else if( verb == "W" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "west" ) );
+		ExecuteCommand();
+	} else if( verb == "U" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "up" ) );
+		ExecuteCommand();
+	} else if( verb == "D" ) {
+		tokenList.push_back( TOKEN( "GO" ) );
+		tokenList.push_back( TOKEN( "down" ) );
+		ExecuteCommand();
+	} else if( verb == "DROP" ) {
 		DropCommand( nounList );
 	} else if( verb == "EXAMINE" ) {
 		ExamineCommand();
@@ -122,7 +147,6 @@ void Game::ExecuteCommand() {
 	} else {
 		std::cout << "Error: Undefined Verb" << std::endl;
 	}
-
 }
 
 void Game::Win() {
@@ -165,7 +189,9 @@ void Game::InventoryCommand() {
 }
 
 void Game::LookCommand() {
-
+	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+	currentRoom->SetSeenBefore( false );
 }
 
 void Game::OpenCommand() {
