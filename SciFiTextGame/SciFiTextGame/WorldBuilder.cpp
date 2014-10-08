@@ -239,7 +239,9 @@ void WorldBuilder::AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) con
 			AddObjectToDictionary( alias );
 			std::shared_ptr<Room> thisRoom = std::dynamic_pointer_cast<Room>(room);
 			thisRoom->AddExit( TOKEN( alias ), thisRoom );
+			++aliasIter;
 		}
+		++exitIter;
 	}
 }
 
@@ -252,5 +254,6 @@ void WorldBuilder::UpdateRoomChildren( GameObject_ptr room, Node_ptr childrenNod
 		Token_ptr childToken = TOKEN( (*childrenIter)->prefix );
 		GameObject_ptr childObject = World::Instance().GetObjectFromToken( childToken );
 		World::Instance().MoveObject( childObject, room );
+		++childrenIter;
 	}
 }

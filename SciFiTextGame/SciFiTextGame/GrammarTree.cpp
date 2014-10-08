@@ -160,6 +160,11 @@ void GrammarTree::AddDictionary( const std::string& dictFile ) {
 }
 
 void GrammarTree::AddNodeWithString( const std::string& line ) {
+	std::string wsCheck = line;
+	RemoveLeadingWhitespace( wsCheck );
+	if( wsCheck.length() == 0 ) {
+		return;
+	}
 	std::string alias, type, token;
 	int firstQuote, lastQuote;
 	firstQuote = line.find_first_of( '"' );

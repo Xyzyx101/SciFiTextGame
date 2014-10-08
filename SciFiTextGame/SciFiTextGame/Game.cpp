@@ -1,7 +1,12 @@
 #include"Game.h"
 #include"GrammarTree.h"
 #include"Token.h"
+#include"World.h"
+#include"GameObject.h"
+#include"Room.h"
+#include"Player.h"
 #include<memory>
+#include<assert.h>
 
 Game Game::instance;
 
@@ -20,9 +25,11 @@ void Game::InitGrammarWithFile( std::string filename ) {
 }
 
 void Game::Play() {
-	DisplayCurrentLocation();
-	GetPlayerInput();
-	ExecuteCommand();
+	while( !gameOver ) {
+		DisplayCurrentLocation( );
+		GetPlayerInput( );
+		ExecuteCommand( );
+	}
 }
 
 void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias ) {
@@ -30,13 +37,40 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 }
 
 void Game::DisplayCurrentLocation() {
+	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
+	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance( ).GetPlayer( )->GetParent( ));
+	std::cout << std::endl << room->GetDescription() << std::endl;
+	if(room->SeenBefore() ) {
+		DisplaySimpleInventory(room);
+	} else {
+		room->SetSeenBefore(true);
+		std::cout << std::endl << room->GetLongDescription( );
+		std::vector<GameObject_ptr> contents = room->GetChildren();
+		for(auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
+			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+				continue;
+			}
+			std::cout << ".  " << (*contentsIter)->GetLongDescription();
+		}
+		std::cout << ".  " << std::endl;
+	}
+}
 
+void Game::DisplaySimpleInventory(Room_ptr room) {
+	std::vector<GameObject_ptr> contents = room->GetChildren( );
+	for(auto contentsIter = contents.begin( ); contentsIter != contents.end( ); ++contentsIter ) {
+		if( (*contentsIter)->GetType( ) == GameObject_t::PLAYER ) {
+			continue;
+		}
+		std::cout << (*contentsIter)->GetDescription( ) << std::endl;
+	}
 }
 
 void Game::GetPlayerInput() {
 	std::string playerInput;
 	std::cout << ">> ";
 	std::cin >> std::noskipws >> playerInput;
+	tokenList.clear();
 	tokenList = grammarTree->Tokenize( playerInput );
 }
 
@@ -47,7 +81,12 @@ void Game::ExecuteCommand() {
 		if( tokenList.back()->GetType() == Token::TokenType::VERB ) {
 			verbToken = tokenList.back();
 		} else if( tokenList.back()->GetType() == Token::TokenType::NOUN ) {
-			nounList.push_back( tokenList.back() );
+			if( World::Instance().IsObjectLocal( tokenList.back() ) ) {
+				nounList.push_back( tokenList.back() );
+			} else {
+				std::cout << "There is no " << World::Instance().GetObjectFromToken( tokenList.back() )->GetDescription() << " here." << std::endl;
+				return;
+			}
 		}
 		tokenList.pop_back();
 	}

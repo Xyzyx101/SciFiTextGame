@@ -23,7 +23,7 @@ public:
 
 	/* Searches the game world for a game object.  Returns null if the game
 	object is not in the current room or player inventory */
-	GameObject_ptr							GetLocalObject( Token_ptr object ) const;
+	bool									IsObjectLocal( Token_ptr object ) const;
 
 	/* Gets a pointer to the player */
 	Player_ptr								GetPlayer() const;

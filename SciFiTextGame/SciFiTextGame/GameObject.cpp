@@ -41,3 +41,7 @@ void GameObject::RemoveChild( GameObject_ptr child ) {
 		++childIter;
 	}
 }
+
+std::vector<GameObject_ptr>& GameObject::GetChildren() {
+	return children;
+}

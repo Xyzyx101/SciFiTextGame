@@ -22,6 +22,7 @@ public:
 	void							SetParent( GameObject_ptr newParent );
 	void							AddChild( GameObject_ptr child );
 	void							RemoveChild( GameObject_ptr child );
+	std::vector<GameObject_ptr>&	GetChildren();
 	virtual inline GameObject_t		GetType() { return OBJECT; };
 	void							SetCanBePickedUp( bool value ) { canBePickedUp = value; };
 	virtual inline bool				CanBePickedUp() { return canBePickedUp; };
