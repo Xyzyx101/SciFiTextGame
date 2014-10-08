@@ -32,7 +32,12 @@ GameObject_ptr World::GetObjectFromName( std::string name ) const {
 }
 
 GameObject_ptr World::GetObjectFromToken( Token_ptr objectToken ) const {
-	return allObjects.find( objectToken )->second;
+	auto x = allObjects.find( objectToken );
+	if( x == allObjects.end() ) {
+		int q = 0;
+	}
+	auto y = x->second;
+	return y;
 }
 
 bool World::IsObjectLocal( Token_ptr objectToken ) const {

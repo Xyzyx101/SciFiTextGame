@@ -14,9 +14,9 @@ TokenPool& TokenPool::Instance() {
 	return instance;
 }
 
-TokenPool& TokenPool::operator=(const TokenPool& rhs) {
+/*TokenPool& TokenPool::operator=(const TokenPool& rhs) {
 	return instance;
-}
+}*/
 
 Token_ptr TokenPool::NewToken(std::string type, std::string name) {
 	Token::TokenType tokenType;
@@ -30,11 +30,15 @@ Token_ptr TokenPool::NewToken(std::string type, std::string name) {
 		tokenType = Token::TokenType::PUNC;
 	} else if( type == "DATA_TYPE" ) {
 		tokenType = Token::TokenType::DATA_TYPE;
-	} else {
-		assert(true);
+	} else if( type == "STRING" ) {
+		return nullptr;
 	}
-	Token_ptr newToken = std::make_shared<Token>(tokenType, name);
-	tokenMap.insert(std::pair<std::string, Token_ptr>(name, newToken));
+	std::map<std::string, Token_ptr>::iterator checkToken = tokenMap.find( name );
+	if(  checkToken != tokenMap.end() ) {
+		return checkToken->second;
+	}
+	Token_ptr newToken = std::make_shared<Token>( tokenType, name );
+	tokenMap.insert( std::pair<std::string, Token_ptr>( name, newToken ) );
 	return newToken;
 }
 

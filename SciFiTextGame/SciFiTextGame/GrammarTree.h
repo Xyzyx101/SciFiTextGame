@@ -28,6 +28,8 @@ private:
 	token is found the string that caused it to choke will be in failWord so that an error can be displayed */
 	Token_ptr					Find_r( Node_ptr node, std::string& command, std::string& failWord ) const;
 
+	void						CompleteFailWord( std::string& command, std::string& failWord ) const;
+
 	/* This parses a string from the data file and creates a string token. */
 	Token_ptr					GetStringToken( std::string& command ) const;
 

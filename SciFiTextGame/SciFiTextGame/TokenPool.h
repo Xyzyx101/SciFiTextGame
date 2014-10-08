@@ -17,7 +17,7 @@ private:
 	TokenPool();
 	~TokenPool();
 	TokenPool( const TokenPool& src ) = delete;
-	TokenPool& operator=(const TokenPool& rhs);
+	TokenPool& operator=(const TokenPool& rhs) = delete;
 	
 	std::map<std::string, Token_ptr>	tokenMap;
 	static TokenPool					instance;

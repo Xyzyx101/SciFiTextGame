@@ -24,7 +24,7 @@ private:
 	void Die();
 	void IncrementScore( int scoreIncrease );
 	void GetScore() const;
-	void DropCommand();
+	void DropCommand( std::list<Token_ptr> nounList );
 	void ExamineCommand();
 	void GoCommand();
 	void InventoryCommand();
@@ -33,11 +33,11 @@ private:
 	void PutCommand();
 	void QuitCommand();
 	void ScoreCommand();
-	void TakeCommand();
+	void TakeCommand( std::list<Token_ptr> nounList );
 	std::shared_ptr<GrammarTree> grammarTree;
 	std::list<Token_ptr> tokenList;
 	bool gameOver;
 	int									score;
-	
+
 };
 

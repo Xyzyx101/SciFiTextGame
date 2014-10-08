@@ -29,7 +29,7 @@ void Game::Play() {
 		DisplayCurrentLocation();
 		GetPlayerInput();
 		if( tokenList.size() != 0 ) {
-			ExecuteCommand( );
+			ExecuteCommand();
 		}
 	}
 }
@@ -40,8 +40,8 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
-	std::cout << std::endl << room->GetDescription() << std::endl;
+	Room_ptr room = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+	std::cout << std::endl << std::endl << room->GetDescription( ) << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
 	} else {
@@ -49,10 +49,10 @@ void Game::DisplayCurrentLocation() {
 		std::cout << std::endl << room->GetLongDescription();
 		std::vector<GameObject_ptr> contents = room->GetChildren();
 		for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+			if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 				continue;
 			}
-			std::cout << ".  " << (*contentsIter)->GetLongDescription();
+			std::cout << ".  " << ( *contentsIter )->GetLongDescription();
 		}
 		std::cout << ".  " << std::endl;
 	}
@@ -61,10 +61,10 @@ void Game::DisplayCurrentLocation() {
 void Game::DisplaySimpleRoomContents( Room_ptr room ) {
 	std::vector<GameObject_ptr> contents = room->GetChildren();
 	for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-		if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+		if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 			continue;
 		}
-		std::cout << (*contentsIter)->GetDescription() << std::endl;
+		std::cout << ( *contentsIter )->GetDescription() << std::endl;
 	}
 }
 
@@ -94,7 +94,7 @@ void Game::ExecuteCommand() {
 	}
 	std::string verb = verbToken->GetProperty();
 	if( verb == "DROP" ) {
-		DropCommand();
+		DropCommand( nounList );
 	} else if( verb == "EXAMINE" ) {
 		ExamineCommand();
 	} else if( verb == "GO" ) {
@@ -112,7 +112,7 @@ void Game::ExecuteCommand() {
 	} else if( verb == "SCORE" ) {
 		ScoreCommand();
 	} else if( verb == "TAKE" ) {
-		TakeCommand();
+		TakeCommand( nounList );
 	} else if( verb == "TOUCH" ) {
 
 	} else if( verb == "USE" ) {
@@ -137,8 +137,12 @@ void Game::Die() {
 	gameOver = true;
 }
 
-void Game::DropCommand() {
-
+void Game::DropCommand( std::list<Token_ptr> nounList ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
+		std::cout << object->GetDescription() << " Dropped" << std::endl;
+		World::Instance().MoveObject( object, World::Instance().GetPlayer()->GetParent() );
+	}
 }
 
 void Game::ExamineCommand() {
@@ -150,13 +154,13 @@ void Game::GoCommand() {
 }
 
 void Game::InventoryCommand() {
-	std::vector<GameObject_ptr> inventory = World::Instance().GetPlayer()->GetChildren( );
+	std::vector<GameObject_ptr> inventory = World::Instance().GetPlayer()->GetChildren();
 	std::cout << "You are carrying:" << std::endl;
 	if( inventory.size() == 0 ) {
 		std::cout << "Nothing" << std::endl;
 	}
-	for( auto inventoryIter = inventory.begin( ); inventoryIter != inventory.end( ); ++inventoryIter ) {
-		std::cout << (*inventoryIter)->GetDescription( ) << std::endl;
+	for( auto inventoryIter = inventory.begin(); inventoryIter != inventory.end(); ++inventoryIter ) {
+		std::cout << ( *inventoryIter )->GetDescription() << std::endl;
 	}
 }
 
@@ -181,6 +185,16 @@ void Game::ScoreCommand() {
 
 }
 
-void Game::TakeCommand() {
-
+void Game::TakeCommand( std::list<Token_ptr> nounList ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
+		if( !World::Instance().IsObjectLocal( *nounIter ) ) {
+			std::cout << "There is no " << object->GetDescription() << " here." << std::endl;
+		} else if( !object->CanBePickedUp() ) {
+			std::cout << "You cannot pick that up." << std::endl;
+		} else {
+			std::cout << object->GetDescription() << " Taken" << std::endl;
+			World::Instance().MoveObject( object, World::Instance().GetPlayer() );
+		}
+	}
 }

@@ -106,6 +106,10 @@ std::list<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
 
 Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string& failWord ) const {
 	std::string::iterator commandIter = command.begin();
+	if( commandIter == command.end() ) {
+		CompleteFailWord(command, failWord);
+		return nullptr;
+	}
 
 	/* Iterate through the edges and search for a match. */
 	int foundElements = 0;
@@ -146,13 +150,17 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string&
 		&& commandIter != command.end() );
 
 	/* If nothing is found complete the failWord and return nullptr. */
-	commandIter = command.begin();
-	while( commandIter != command.end()
+	CompleteFailWord(command, failWord);
+	return nullptr;
+}
+
+void GrammarTree::CompleteFailWord( std::string& command, std::string& failWord ) const {
+	std::string::iterator commandIter = command.begin( );
+	while( commandIter != command.end( )
 		&& std::isalpha( *commandIter ) ) {
 		failWord += *commandIter;
 		++commandIter;
 	}
-	return nullptr;
 }
 
 Token_ptr GrammarTree::GetStringToken( std::string& command ) const {
