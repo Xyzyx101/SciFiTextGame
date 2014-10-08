@@ -57,12 +57,21 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 	} else {
 		/* If there is a partial match then we need to make a new node with two edges.  One edge for
 		the old branch of the tree and a new one for the new node.*/
+		
 		std::string oldString = (*edgeIter)->prefix;
 		Node_ptr oldNode = (*edgeIter)->node;
 		node->children.erase( edgeIter );
 		Node_ptr splitNode = std::make_shared<Node>();
-		splitNode->children.push_back( std::make_shared<Edge>( alias.substr( partial.length() ), newNode ) );
-		splitNode->children.push_back( std::make_shared<Edge>( oldString.substr( partial.length() ), oldNode ) );
+
+		
+		std::string newEdge = alias.substr( partial.length( ) );
+		if( newEdge.length() > 0 ) {
+			splitNode->children.push_back( std::make_shared<Edge>( newEdge, newNode ) );
+		}
+		std::string oldEdge = oldString.substr( partial.length( ) );
+		if( oldEdge.length() > 0 ) {
+			splitNode->children.push_back( std::make_shared<Edge>( oldEdge, oldNode ) );
+		}
 		node->children.push_back( std::make_shared<Edge>( partial, splitNode ) );
 	}
 }
@@ -70,16 +79,19 @@ void GrammarTree::AddNode_r( Node_ptr node, Token_ptr const token, const std::st
 std::list<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
 	std::list<Token_ptr> tokens;
 	RemoveLeadingWhitespace( command );
+	std::string failWord;
 	/* As the sentance is tokenized we remove the used part of the command string. */
 	while( command.length() > 0 ) {
 		Token_ptr token;
 		if( command[0] == '"' ) {
 			token = GetStringToken( command );
 		} else {
-			token = Find_r( root, command );
+			token = Find_r( root, command, failWord );
 		}
 		if( token == nullptr ) {
-			std::cout << "Parse Error!" << std::endl;
+			std::cout << "I do not understand the word " << failWord << "." << std::endl;
+			tokens.clear();
+			return tokens;
 		} else {
 			tokens.push_back( token );
 		}
@@ -88,7 +100,7 @@ std::list<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
 	return tokens;
 }
 
-Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command ) const {
+Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string& failWord ) const {
 	std::string::iterator commandIter = command.begin();
 
 	/* Iterate through the edges and search for a match. */
@@ -117,9 +129,11 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command ) const {
 			if( (*edgeIter)->node->token != nullptr
 				&& (command.begin() == command.end() || !std::isalpha( *(command.begin()) ))
 				) {
+				failWord = "";
 				return (*edgeIter)->node->token;
 			} else {
-				return Find_r( (*edgeIter)->node, command );
+				failWord += prefix;
+				return Find_r( (*edgeIter)->node, command, failWord );
 			}
 		}
 		++edgeIter;
@@ -127,7 +141,13 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command ) const {
 			 && edgeIter != node->children.end()
 			 && commandIter != command.end() );
 
-	/* If nothing is found return nullptr. */
+	/* If nothing is found complete the failWord and return nullptr. */
+	commandIter = command.begin();
+	while( commandIter != command.end()
+		   && std::isalpha( *commandIter ) ) {
+		failWord += *commandIter;
+		++commandIter;
+	}
 	return nullptr;
 }
 
@@ -170,11 +190,11 @@ void GrammarTree::AddNodeWithString( const std::string& line ) {
 	firstQuote = line.find_first_of( '"' );
 	lastQuote = line.find_last_of( '"' );
 	alias = line.substr( firstQuote + 1, lastQuote - firstQuote - 1 );
-		
-	int typeStart = lastQuote + 1 + line.substr( lastQuote + 1, std::string::npos).find_first_not_of(" \n\t" );
+
+	int typeStart = lastQuote + 1 + line.substr( lastQuote + 1, std::string::npos ).find_first_not_of( " \n\t" );
 	int lastSpace = line.find_last_of( ' ' );
-	type = line.substr(typeStart, lastSpace - typeStart);
-	token = line.substr(lastSpace + 1);
+	type = line.substr( typeStart, lastSpace - typeStart );
+	token = line.substr( lastSpace + 1 );
 
 	Token_ptr newToken = TokenPool::Instance().NewToken( type, token );
 	AddNode( newToken, alias );

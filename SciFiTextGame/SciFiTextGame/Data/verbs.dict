@@ -15,7 +15,7 @@
 "open" VERB OPEN
 "pick" VERB up TAKE
 "put" VERB PUT
-"put" VERB down DROP
+"put down" VERB DROP
 "quit" VERB QUIT
 "read" VERB READ
 "say" VERB SAY

@@ -17,7 +17,7 @@ private:
 	static Game instance;
 	Game();
 	void DisplayCurrentLocation();
-	void DisplaySimpleInventory( Room_ptr room );
+	void DisplaySimpleRoomContents( Room_ptr room );
 	void GetPlayerInput();
 	void ExecuteCommand();
 	void Win();
