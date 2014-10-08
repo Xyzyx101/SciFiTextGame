@@ -18,6 +18,8 @@ void World::AddObject( GameObject_ptr object ) {
 		player = std::dynamic_pointer_cast<Player>(object);
 	}
 	children.push_back( object );
+	Token_ptr objectToken = TOKEN( object->GetName( ) );
+	allObjects.insert( std::pair<Token_ptr, GameObject_ptr>( objectToken, object ) );
 }
 
 void World::AddObject( GameObject_ptr object, GameObject_ptr newParent ) {
@@ -49,9 +51,4 @@ void World::MoveObject( GameObject_ptr object, GameObject_ptr newParent ) {
 		object->GetParent()->RemoveChild( object );
 	}
 	newParent->AddChild( object );
-}
-
-void World::AddObjectToMap( GameObject_ptr object ) {
-	Token_ptr objectToken = TOKEN( object->GetName() );
-	allObjects.insert( std::pair<Token_ptr, GameObject_ptr>( objectToken, object ) );
 }

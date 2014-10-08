@@ -37,7 +37,6 @@ public:
 	/* Moves an object from its current location to the location passed in */
 	void									MoveObject( GameObject_ptr object, GameObject_ptr newParent );
 private:
-	void									AddObjectToMap( GameObject_ptr object );
 	static World instance;
 	World();
 	std::vector<GameObject_ptr>				children;

@@ -2,7 +2,8 @@
 
 
 Room::Room(std::string name, std::string description, std::string longDescription) 
-	: GameObject(name, description, longDescription)
+	: GameObject(name, description, longDescription),
+	seenBefore(false)
 {}
 
 Room::~Room() {}

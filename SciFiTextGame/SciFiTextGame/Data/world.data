@@ -28,13 +28,23 @@ name : "cargo_bay" {
 			alias : "door",
 			alias : "north"
 		}
+	},
+	children : {
+		alias : "wire"
 	}
 }
 
 name : "computer" {
 	type : object,
 	description : "The computer has buttons",
-	long_description : "The computer has long buttons",
+	long_description : "The computer has long buttons"
+}
+
+name : "wire" {
+	type : object,
+	pickup,
+	description : "A roll of wire",
+	long_description : "A long roll of wire with small connectors on the ends.",
 }
 
 name : "player" {

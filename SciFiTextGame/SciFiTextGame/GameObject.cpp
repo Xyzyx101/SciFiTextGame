@@ -4,7 +4,8 @@
 GameObject::GameObject( std::string name, std::string description, std::string longDescription ) :
 name( name ),
 description( description ),
-longDescription( longDescription ) {}
+longDescription( longDescription ),
+canBePickedUp(false) {}
 
 GameObject::~GameObject() {}
 

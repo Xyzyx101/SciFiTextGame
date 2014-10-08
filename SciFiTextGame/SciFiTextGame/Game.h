@@ -1,6 +1,8 @@
 #pragma once
 #include<string>
 #include<memory>
+#include<list>
+#include"CommonTypes.h"
 
 class GrammarTree;
 
