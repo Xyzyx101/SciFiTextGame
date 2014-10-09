@@ -101,7 +101,7 @@ void Game::ExecuteCommand() {
 	} else if( verb == TOKEN( "DROP" ) ) {
 		DropCommand( nounList );
 	} else if( verb == TOKEN( "EXAMINE" ) ) {
-		//ExamineCommand();
+		ExamineCommand( nounList );
 	} else if( verb == TOKEN( "GO" ) ) {
 		GoCommand( nounList );
 	} else if( verb == TOKEN( "GET" ) ) {
@@ -163,20 +163,23 @@ void Game::DropCommand( std::list<Token_ptr> nounList ) {
 	}
 }
 
-void Game::ExamineCommand() {
-
+void Game::ExamineCommand( std::list<Token_ptr> nounList ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
+		std::cout << object->GetDetail() << std::endl;
+	}
 }
 
 void Game::GetCommand( std::list<Token_ptr> nounList ) {
-	for( auto nounIter = nounList.begin( ); nounIter != nounList.end( ); ++nounIter ) {
-		GameObject_ptr object = World::Instance( ).GetObjectFromToken( *nounIter );
-		if( !World::Instance( ).IsObjectLocal( *nounIter ) ) {
-			std::cout << "There is no " << object->GetDescription( ) << " here." << std::endl;
-		} else if( !object->CanBePickedUp( ) ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
+		if( !World::Instance().IsObjectLocal( *nounIter ) ) {
+			std::cout << "There is no " << object->GetDescription() << " here." << std::endl;
+		} else if( !object->CanBePickedUp() ) {
 			std::cout << "You cannot pick that up." << std::endl;
 		} else {
-			std::cout << object->GetDescription( ) << " Taken" << std::endl;
-			World::Instance( ).MoveObject( object, World::Instance( ).GetPlayer( ) );
+			std::cout << object->GetDescription() << " Taken" << std::endl;
+			World::Instance().MoveObject( object, World::Instance().GetPlayer() );
 		}
 	}
 }
@@ -186,8 +189,8 @@ void Game::GoCommand( std::list<Token_ptr> nounList ) {
 		std::cout << "I do not understand." << std::endl;
 	}
 	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
-	Room_ptr targetRoom = currentRoom->GetExit( nounList.front( ) );
-	if( targetRoom == nullptr) {
+	Room_ptr targetRoom = currentRoom->GetExit( nounList.front() );
+	if( targetRoom == nullptr ) {
 		std::cout << "There is no exit in that direction." << std::endl;
 	} else {
 		World::Instance().MoveObject( World::Instance().GetPlayer(), targetRoom );

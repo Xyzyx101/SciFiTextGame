@@ -38,6 +38,7 @@ name : "computer" {
 	type : object,
 	description : "The computer has buttons",
 	long_description : "The computer has long buttons"
+	detail : "The computer seems to be a communication station.  It is off."
 }
 
 name : "wire" {

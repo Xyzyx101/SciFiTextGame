@@ -81,7 +81,8 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 		syntaxTree->MoveToParent();
 	} else if( nextToken == TOKEN( "DESCRIPTION" )
 			   || nextToken == TOKEN( "LONG_DESCRIPTION" )
-			   || nextToken == TOKEN( "ALIAS" ) ) {
+			   || nextToken == TOKEN( "ALIAS" ) 
+			   || nextToken == TOKEN( "DETAIL") ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
 		Edge_ptr newEdge = std::make_shared<Edge>( (*tokenList.begin())->GetProperty(), newNode );
@@ -137,7 +138,7 @@ void WorldBuilder::BuildWorldTree() {
 
 void WorldBuilder::AddAllObjectsToWorld() {
 	syntaxTree->Reset();
-	std::string name, description, longDescription;
+	std::string name, description, longDescription, detail;
 	bool canBePickedUp = false;
 	Token_ptr type;
 	std::vector<Edge_ptr> allObjects = syntaxTree->GetChildren();
@@ -154,12 +155,14 @@ void WorldBuilder::AddAllObjectsToWorld() {
 				description = (*propertyIter)->prefix;
 			} else if( propToken == TOKEN( "LONG_DESCRIPTION" ) ) {
 				longDescription = (*propertyIter)->prefix;
+			} else if( propToken == TOKEN( "DETAIL" ) ) {
+				detail = (*propertyIter)->prefix;
 			} else if( propToken == TOKEN( "CAN_BE_PICKED_UP" ) ) {
 				canBePickedUp = true;
 			}
 			++propertyIter;
 		}
-		AddObjectToWorld( type, name, description, longDescription, canBePickedUp );
+		AddObjectToWorld( type, name, description, longDescription, detail, canBePickedUp );
 		AddObjectToDictionary( "NOUN", name );
 		type = nullptr;
 		name = description = longDescription = "";
@@ -167,14 +170,14 @@ void WorldBuilder::AddAllObjectsToWorld() {
 	}
 }
 
-void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription, bool canBePickedUp ) const {
+void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription, const std::string& detail, bool canBePickedUp ) const {
 	GameObject_ptr newObject;
 	if( type == TOKEN( "ROOM" ) ) {
 		newObject = std::make_shared<Room>( name, description, longDescription );
 	} else if( type == TOKEN( "PLAYER" ) ) {
 		newObject = std::make_shared<Player>( name, description, longDescription );
 	} else if( type == TOKEN( "OBJECT" ) ) {
-		newObject = std::make_shared<GameObject>( name, description, longDescription );
+		newObject = std::make_shared<GameObject>( name, description, longDescription, detail );
 		newObject->SetCanBePickedUp( canBePickedUp );
 	} else {
 		std::cout << "Error unknown object type" << std::endl;

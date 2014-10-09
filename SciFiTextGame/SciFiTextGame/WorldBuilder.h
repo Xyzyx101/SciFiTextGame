@@ -44,7 +44,7 @@ private:
 	void							BuildWorldTree();
 
 	void AddAllObjectsToWorld();
-	void AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription, bool canBePickedUp ) const;
+	void AddObjectToWorld( Token_ptr type, const std::string& name, const std::string& description, const std::string& longDescription, const std::string& detail, bool canBePickedUp ) const;
 	void AddObjectToDictionary( const std::string& type, const std::string& name ) const;
 	void CreateWorldTreeStructure();
 	void AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) const;

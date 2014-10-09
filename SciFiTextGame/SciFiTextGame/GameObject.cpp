@@ -1,10 +1,18 @@
 #include"GameObject.h"
 #include"World.h"
 
-GameObject::GameObject( std::string name, std::string description, std::string longDescription ) :
+GameObject::GameObject( std::string name, std::string description, std::string longDescription) :
 name( name ),
 description( description ),
 longDescription( longDescription ),
+detail( "" ),
+canBePickedUp( false ) {}
+
+GameObject::GameObject( std::string name, std::string description, std::string longDescription, std::string detail ) :
+name( name ),
+description( description ),
+longDescription( longDescription ),
+detail(detail),
 canBePickedUp(false) {}
 
 GameObject::~GameObject() {}
@@ -15,6 +23,14 @@ const std::string& GameObject::GetDescription() const {
 
 const std::string& GameObject::GetLongDescription() const {
 	return longDescription;
+}
+
+const std::string& GameObject::GetDetail( ) const {
+	if( detail == "" ) {
+		return longDescription;
+	} else {
+		return detail;
+	}
 }
 
 GameObject_ptr GameObject::GetParent() const {
