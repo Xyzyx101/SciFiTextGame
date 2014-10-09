@@ -1,17 +1,19 @@
 name : "cockpit" {
 	type : room,
-	description : "A cockpit of a spaceship",
-	long_description : "Full of blinking lights and shit.  To the south is a door",
+	description : "Cockpit",
+	long_description : "You are in the cockpit of a spaceship.  There is a strong smell of burnt electronics.  Everything is dark except the dull glow of red emergency lights.  There is a doorway leading south.",
 	exits : {
-		name : "cargo_bay" {
+		name : "small_corridor" {
 			alias : "door",
 			alias : "south"
 		}
 	},
 	children : {
 		name : "computer" {
-			alias : "computer",
-			alias : "box of blinking lights"
+			alias : "computer"
+		},
+		name : "socket" {
+			alias : "socket"
 		},
 		name : "player" {
 			alias : "player"
@@ -21,35 +23,134 @@ name : "cockpit" {
 
 name : "cargo_bay" {
 	type : room,
-	description : "A cargo bay",
-	long_description : "The cargobay is full of stuff. There is a door to the north.",
+	description : "Cargo Bay",
+	long_description : "Around you is a jumble of broken science experiments and equipment.  There is a strong smell of chemicals and a fainter smell of fire.  It look as if the room had been turned upside down a few times.",
 	exits : {
-		name : "cockpit" {
+		name : "small_corridor" {
 			alias : "door",
 			alias : "north"
 		}
 	},
 	children : {
-		alias : "wire"
+		name : "cable" {
+			alias : "power cable",
+			alias : "cable"
+		},
+		name : "experiment" {
+			alias : "experiment",
+			alias : "experiments",
+			alias : "science experiment",
+			alias : "science experiments",
+			alias : "boxes"
+		},
+		name : "equipment" {
+			alias : "equipment"
+		}
 	}
+}
+
+name : "small_corridor" {
+	type : room,
+	description : "Corridor",
+	long_description : "You are in a cramped corridor.  The main corridor goes north and south.  There is also a room to the east.",
+	exits : {
+		name : "cockpit" {
+			alias : "north"
+		},
+		name : "cargo_bay" {
+			alias : "south"
+		},
+		name : "airlock" {
+			alias : "east"
+		}
+	},
+	children : {
+		name : "locker" {
+			alias : "locker"
+		}
+	}
+}
+
+name : "airlock" {
+	type : room,
+	description : "Airlock",
+	long_description : "You are in the airlock.  To the west is the interior door heading back into the ship.  To the west is the large exterior airlock door.",
+	exits : {
+		name : "small_corridor" {
+			alias : "west"
+		}
+	},
+	children : {
+		name : "handle" {
+			alias : "handle",
+			alias : "emergency handle",
+			alias : "emergency override"
+		},
+		name : "airlock_controls" {
+			alias : "controls"
+		}
+	}
+}
+
+name : "airlock_controls" {
+	type : object,
+	description : "Airlock controls",
+	long_description : "There are controls for the airlock on the wall."
+	detail : "The screens are dark and the controls do not seem to be working."
+}
+
+name : "handle" {
+	type : object,
+	description : "Manual override handle",
+	long_description : "The is a red handle labeled Manual Override.",
+	detail : "There is a small label next to the handle that says 'Use handle to open the airlock in case of computer or power failure'."
 }
 
 name : "computer" {
 	type : object,
-	description : "The computer has buttons",
-	long_description : "The computer has long buttons"
+	description : "A computer",
+	long_description : "On the wall is a small computer."
 	detail : "The computer seems to be a communication station.  It is off."
 }
 
-name : "wire" {
+name : "socket" {
+	type : object,
+	description : "A power socket",
+	long_description : "The computer has a socket labeled auxilliary power on the front of the panel."
+	detail : "The socket has nothing plugged in."
+}
+
+name : "locker" {
+	type : object,
+	description : "Locker",
+	long_description : "Against the wall is a large locker."
+	detail : "It seems to be unlocked."
+}
+
+name : "cable" {
 	type : object,
 	pickup,
-	description : "A roll of wire",
-	long_description : "A long roll of wire with small connectors on the ends.",
+	description : "Power cable",
+	long_description : "A very long power cable is on the floor here.",
+	detail : "It seems to be a standard power cable.  It is very long and has connectors at both ends."
+}
+
+name : "equipment" {
+	type : object,
+	description : "Equipment",
+	long_description : "A jumble of equipment is against the back wall."
+	detail : "Everything seems to be damaged by a fire.  There are a few smashed computer screens.  Nothing seems useful."
+}
+
+name : "experiment" {
+	type : object,
+	description : "Experiments",
+	long_description : "There are boxes of what appear to be science experiments."
+	detail : "There are a number of sensors and computer screens.  Some boxes have what appear to be small communcation antennas.  Everything  is smashed and burnt including the antennas."
 }
 
 name : "player" {
 	type : player,
-	description : "The player",
-	long_description : "The player long",
+	description : "Player",
+	long_description : "This is you",
 }

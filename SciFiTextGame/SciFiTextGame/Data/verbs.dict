@@ -33,3 +33,4 @@
 "west" EXIT WEST
 "up" EXIT UP
 "down" EXIT DOWN
+"x" VERB EXAMINE

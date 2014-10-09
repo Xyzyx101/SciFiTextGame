@@ -112,7 +112,9 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string&
 	/* Iterate through the edges and search for a match. */
 	int foundElements = 0;
 	std::vector<Edge_ptr>::iterator edgeIter = node->children.begin();
-	do {
+	while( foundElements == 0
+		   && edgeIter != node->children.end()
+		   && commandIter != command.end() ) {
 		std::string prefix = (*edgeIter)->prefix;
 		for( size_t i = 0; i < prefix.length(); ++i, ++commandIter ) {
 			if( prefix[i] == std::tolower( *commandIter ) ) {
@@ -143,9 +145,7 @@ Token_ptr GrammarTree::Find_r( Node_ptr node, std::string& command, std::string&
 			}
 		}
 		++edgeIter;
-	} while( foundElements == 0
-			 && edgeIter != node->children.end()
-			 && commandIter != command.end() );
+	}
 
 	/* If nothing is found complete the failWord and return nullptr. */
 	CompleteFailWord( command, failWord );

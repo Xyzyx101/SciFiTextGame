@@ -193,6 +193,11 @@ void WorldBuilder::AddObjectToDictionary( const std::string& type, const std::st
 	Game::Instance().AddNodeToGrammarTree( newToken, name );
 }
 
+void WorldBuilder::AddObjectToDictionary( const std::string& type, const std::string& name, const std::string& alias ) const {
+	Token_ptr newToken = TokenPool::Instance( ).NewToken( type, name );
+	Game::Instance( ).AddNodeToGrammarTree( newToken, alias );
+}
+
 void WorldBuilder::CreateWorldTreeStructure() {
 	syntaxTree->Reset();
 	Token_ptr type;
@@ -262,6 +267,9 @@ void WorldBuilder::UpdateRoomChildren( GameObject_ptr room, Node_ptr childrenNod
 		Token_ptr childToken = TOKEN( (*childrenIter)->prefix );
 		GameObject_ptr childObject = World::Instance().GetObjectFromToken( childToken );
 		World::Instance().MoveObject( childObject, room );
+		for( auto aliasIter = (*childrenIter)->node->children.begin(); aliasIter != (*childrenIter)->node->children.end(); ++aliasIter ) {
+			AddObjectToDictionary( "NOUN", (*childrenIter)->prefix, (*aliasIter)->prefix );
+		}
 		++childrenIter;
 	}
 }

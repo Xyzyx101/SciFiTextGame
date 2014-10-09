@@ -13,7 +13,8 @@ Game Game::instance;
 
 Game::Game() :
 grammarTree( std::make_shared<GrammarTree>() ),
-gameOver( false ) {}
+gameOver( false ),
+MAX_SCORE(100) {}
 
 Game::~Game() {}
 
@@ -31,6 +32,9 @@ void Game::Play() {
 		GetPlayerInput();
 		if( tokenList.size() != 0 ) {
 			ExecuteCommand();
+		}
+		if( score >= MAX_SCORE ) {
+			Win();
 		}
 	}
 }
@@ -53,14 +57,18 @@ void Game::DisplayCurrentLocation() {
 			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
 				continue;
 			}
-			std::cout << ".  " << (*contentsIter)->GetLongDescription();
+			std::cout << "  " << (*contentsIter)->GetLongDescription();
 		}
-		std::cout << ".  " << std::endl;
+		std::cout << std::endl;
 	}
 }
 
 void Game::DisplaySimpleRoomContents( Room_ptr room ) {
 	std::vector<GameObject_ptr> contents = room->GetChildren();
+	if( contents.size() == 0 ) {
+		return;
+	}
+	std::cout << "There are items here:" << std::endl;
 	for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
 		if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
 			continue;
@@ -228,5 +236,9 @@ void Game::QuitCommand() {
 }
 
 void Game::ScoreCommand() {
+	std::cout << "You scored " << score << " out a possible " << 100 << "." << std::endl;
+}
 
+void Game::IncrementScore( int points ) {
+	score += points;
 }

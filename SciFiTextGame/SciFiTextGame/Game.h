@@ -39,7 +39,7 @@ private:
 	std::shared_ptr<GrammarTree> grammarTree;
 	std::list<Token_ptr> tokenList;
 	bool gameOver;
+	const int							MAX_SCORE;
 	int									score;
-
 };
 
