@@ -1,7 +1,7 @@
 name : "player" {
 	type : player,
 	description : "Player",
-	long_description : "This is you",
+	long_description : "This is you"
 }
 
 name : "cockpit" {
@@ -52,7 +52,7 @@ name : "small_corridor" {
 		name : "cargo_bay" {
 			alias : "south"
 		},
-		name : "airlock" {
+		name : "airlock_room" {
 			alias : "east"
 		}
 	},
@@ -72,6 +72,7 @@ name : "locker" {
 
 name : "space_suit" {
 	type : object,
+	pickup,
 	alternate_name : {
 		alias : "space suit",
 		alias : "suit"
@@ -92,7 +93,7 @@ name : "cargo_bay" {
 		}
 	},
 	children : {
-		name : "cable" {
+		name : "fo_cable" {
 			alias : "power cable",
 			alias : "cable"
 		},
@@ -109,12 +110,16 @@ name : "cargo_bay" {
 	}
 }
 
-name : "cable" {
+name : "fo_cable" {
 	type : object,
 	pickup,
-	description : "Power cable",
-	long_description : "A very long power cable is on the floor here.",
-	detail : "It seems to be a standard power cable.  It is very long and has connectors at both ends."
+	alternate_name : {
+		alias : "cable",
+		alias : "fibre optic cable"
+	}
+	description : "Fibre optic data cable",
+	long_description : "There is a fibre optic data cable here.",
+	detail : "It is a long roll of fibre optic cable. "
 }
 
 name : "equipment" {
@@ -131,10 +136,10 @@ name : "experiment" {
 	detail : "There are a number of sensors and computer screens.  Some boxes have what appear to be small communcation antennas.  Everything  is smashed and burnt including the antennas."
 }
 
-name : "airlock" {
+name : "airlock_room" {
 	type : room,
 	description : "Airlock",
-	long_description : "You are in the airlock.  To the west is the interior door heading back into the ship.  To the west is the large exterior airlock door.",
+	long_description : "You are in the airlock.  To the west is the interior door heading back into the ship.",
 	exits : {
 		name : "small_corridor" {
 			alias : "west"
@@ -148,8 +153,20 @@ name : "airlock" {
 		},
 		name : "airlock_controls" {
 			alias : "controls"
+		},
+		name : "airlock_door" {
+			alias : "airlock",
+			alias : "airlock door",
+			alias : "door"
 		}
 	}
+}
+
+name : "airlock_door" {
+	type : object,
+	description : "Airlock door",
+	long_description : "To the west is the large exterior airlock door."
+	detail : "The door is closed."
 }
 
 name : "airlock_controls" {
@@ -164,4 +181,79 @@ name : "handle" {
 	description : "Manual override handle",
 	long_description : "The is a red handle labeled Manual Override.",
 	detail : "There is a small label next to the handle that says 'Use handle to open the airlock in case of computer or power failure'."
+}
+
+name : "outside_ship" {
+	type : room,
+	description : "Outside Ship",
+	long_description : "You are standing at the bottom of a deep ravine.  Far above you you can see stars through a narrow gap between the ravine walls.  Next to you is a demolished landing vehicle embedded in the wall of the ravine.  The vehicle is half buried in rubble and has clouds of gas escapeing through holes ripped in its skin.  To the west is an airlock leading back into the ship.  The ravine slopes slowly down to the north.  The back of the ship extends to the south.",
+	exits : {
+		name : "airlock_room" {
+				alias : "west",
+				alias : "airlock"
+			}
+		name : "behind_ship" {
+				alias : "south",
+			}
+	},
+	children : {
+	}
+}
+
+name : "behind_ship" {
+	type : room,
+	description : "Behind Ship",
+	long_description : "You are standing at the back of your ship.  The engines are smashed.  There is a steep slope going up and south from here and the rest of the ship extends to the north.",
+	exits : {
+		name : "outside_ship" {
+				alias : "north",
+			},
+		name : "slope" {
+				alias : "up",
+				alias : "south"
+			}
+	},
+	children : {
+		name : "access_hatch" {
+				alias : "access hatch",
+				alias : "hatch"
+			}
+	}
+}
+
+name : "access_hatch" {
+	type : object,
+	description : "Access hatch",
+	long_description : "There is an hatch built into the side of the ship here.",
+	detail : "The hatch is closed."
+}
+
+name : "power_conduit" {
+	type : object,
+	pickup,
+	description : "Power conduit",
+	long_description : "A very long power conduit is on the floor here.",
+	detail : "It seems to be a very long power conduit."
+}
+
+name : "slope" {
+	type : room,
+	description : "Slope",
+	long_description : "You are ravine comes to a dead end here.  The slope goes down to the south and there are impassable cliffs in all other directions.",
+	exits : {
+		name : "behind_ship" {
+				alias : "down",
+				alias : "north"
+			}
+	},
+	children : {
+		name : cliff
+	}
+}
+
+name : "cliff" {
+	type : object,
+	description : "Cliff",
+	long_description : "",
+	detail : "The cliffs are vertical and impassable."
 }

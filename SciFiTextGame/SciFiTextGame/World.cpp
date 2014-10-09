@@ -15,7 +15,7 @@ World& World::Instance() {
 
 void World::AddObject( GameObject_ptr object ) {
 	if( object->GetType() == GameObject_t::PLAYER ) {
-		player = std::dynamic_pointer_cast<Player>(object);
+		player = std::dynamic_pointer_cast<Player>( object );
 	}
 	children.push_back( object );
 	Token_ptr objectToken = TOKEN( object->GetName() );
@@ -69,5 +69,9 @@ void World::MoveObject( GameObject_ptr object, GameObject_ptr newParent ) {
 	if( object->GetParent() ) {
 		object->GetParent()->RemoveChild( object );
 	}
-	newParent->AddChild( object );
+	if( newParent == nullptr ) {
+		children.push_back( object );
+	} else {
+		newParent->AddChild( object );
+	}
 }

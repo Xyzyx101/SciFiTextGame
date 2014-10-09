@@ -32,10 +32,10 @@ private:
 	void InventoryCommand();
 	void LookCommand();
 	void OpenCommand( std::list<Token_ptr> nounList );
-	void PutCommand();
 	void QuitCommand();
 	void ScoreCommand();
 	void TakeCommand( std::list<Token_ptr> nounList );
+	void UseCommand( std::list<Token_ptr> nounList );
 	std::shared_ptr<GrammarTree> grammarTree;
 	std::list<Token_ptr> tokenList;
 	bool gameOver;

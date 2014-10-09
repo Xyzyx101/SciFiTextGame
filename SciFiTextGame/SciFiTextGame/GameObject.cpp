@@ -25,12 +25,20 @@ const std::string& GameObject::GetLongDescription() const {
 	return longDescription;
 }
 
+void GameObject::SetLongDescription( const std::string& newString) {
+		longDescription = newString;
+}
+
 const std::string& GameObject::GetDetail( ) const {
 	if( detail == "" ) {
 		return longDescription;
 	} else {
 		return detail;
 	}
+}
+
+void GameObject::SetDetail( const std::string& newString ) {
+	detail = newString;
 }
 
 GameObject_ptr GameObject::GetParent() const {

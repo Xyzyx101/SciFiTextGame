@@ -45,7 +45,7 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr room = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	std::cout << std::endl << std::endl << "**  " << room->GetDescription() << "  **" << std::endl << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
@@ -54,10 +54,10 @@ void Game::DisplayCurrentLocation() {
 		std::cout << room->GetLongDescription();
 		std::vector<GameObject_ptr> contents = room->GetChildren();
 		for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+			if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 				continue;
 			}
-			std::cout << "  " << (*contentsIter)->GetLongDescription();
+			std::cout << "  " << ( *contentsIter )->GetLongDescription();
 		}
 		std::cout << std::endl;
 	}
@@ -70,10 +70,10 @@ void Game::DisplaySimpleRoomContents( Room_ptr room ) {
 	}
 	std::cout << "There are items here:" << std::endl;
 	for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-		if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+		if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 			continue;
 		}
-		std::cout << (*contentsIter)->GetDescription() << std::endl;
+		std::cout << ( *contentsIter )->GetDescription() << std::endl;
 	}
 }
 
@@ -126,7 +126,7 @@ void Game::ExecuteCommand() {
 	} else if( verb == TOKEN( "SCORE" ) ) {
 		//ScoreCommand();
 	} else if( verb == TOKEN( "USE" ) ) {
-		//UseCommand();
+		UseCommand( nounList );
 	} else {
 		std::cout << "I do not understand what you want me to do." << std::endl;
 	}
@@ -197,7 +197,7 @@ void Game::GoCommand( std::list<Token_ptr> nounList ) {
 	if( nounList.size() > 1 ) {
 		std::cout << "I do not understand." << std::endl;
 	}
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	Room_ptr targetRoom = currentRoom->GetExit( nounList.front() );
 	if( targetRoom == nullptr ) {
 		std::cout << "There is no exit in that direction." << std::endl;
@@ -213,13 +213,13 @@ void Game::InventoryCommand() {
 		std::cout << "Nothing" << std::endl;
 	}
 	for( auto inventoryIter = inventory.begin(); inventoryIter != inventory.end(); ++inventoryIter ) {
-		std::cout << (*inventoryIter)->GetDescription() << std::endl;
+		std::cout << ( *inventoryIter )->GetDescription() << std::endl;
 	}
 }
 
 void Game::LookCommand() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	currentRoom->SetSeenBefore( false );
 }
 
@@ -228,14 +228,15 @@ void Game::OpenCommand( std::list<Token_ptr> nounList ) {
 		if( *nounIter == TOKEN( "LOCKER" ) ) {
 			GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
 			World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
+			LookCommand();
+		} else if( *nounIter == TOKEN( "POWER_CONDUIT" ) ) {
+			GameObject_ptr powerConduit = World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) );
+			World::Instance().MoveObject( powerConduit, World::Instance().GetPlayer()->GetParent() );
+			LookCommand();
 		} else {
 			std::cout << "You can't open that." << std::endl;
 		}
 	}
-}
-
-void Game::PutCommand() {
-
 }
 
 void Game::QuitCommand() {
@@ -246,6 +247,63 @@ void Game::QuitCommand() {
 void Game::ScoreCommand() {
 	std::cout << "You scored " << score << " out a possible " << 100 << "." << std::endl;
 }
+
+void Game::UseCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() == 1 ) {
+		for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+			if( *nounIter == TOKEN( "LOCKER" ) ) {
+				GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
+				World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
+				std::cout << "The locker contains a space suit." << std::endl;
+				LookCommand();
+			} else if( *nounIter == TOKEN( "SPACE_SUIT" ) ) {
+				GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
+				World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer() );
+				World::Instance().GetPlayer()->SetWearingSpaceSuit( true );
+				spaceSuit->SetDetail( "You are wearing the spacesuit.  " + spaceSuit->GetDetail() );
+				std::cout << "You are now wearing the space suit." << std::endl;
+			} else if( *nounIter == TOKEN( "HANDLE" ) ) {
+				if( World::Instance().GetPlayer()->WearingSpaceSuit() ) {
+					GameObject_ptr airlock = World::Instance().GetObjectFromToken( TOKEN( "AIRLOCK_DOOR" ) );
+					airlock->SetLongDescription( "You can see rocks and rubble through the open door to the west." );
+					airlock->SetDetail( "The door is open." );
+					assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
+					Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+					Room_ptr outside = std::dynamic_pointer_cast<Room>( World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ) );
+					currentRoom->AddExit( TOKEN( "EAST" ), outside );
+					LookCommand();
+				} else {
+					std::cout << "You let all of the air out of the ship.  Good call." << std::endl;
+					Die();
+				}
+			} else {
+				std::cout << "You can't open that." << std::endl;
+			}
+		}
+	} else if( nounList.size() == 2 ) {
+		for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+			if( *nounIter == TOKEN( "FO_CABLE" ) ) {
+				nounList.erase( nounIter );
+				if( nounList.front() == TOKEN( "PORT" ) ) {
+
+				} else if( nounList.front() == TOKEN( "ANTENNAE" ) ) {
+
+				}
+			} else if( *nounIter == TOKEN( "POWER_CONDUIT" ) ) {
+				nounList.erase( nounIter );
+				nounList.erase( nounIter );
+				if( nounList.front() == TOKEN( "COMPUTER" ) ) {
+
+				} else if( nounList.front() == TOKEN( "GENERATOR" ) ) {
+
+				}
+			}
+		}
+	} else {
+		std::cout << "Use what?" << std::endl;
+	}
+}
+
 
 void Game::IncrementScore( int points ) {
 	score += points;

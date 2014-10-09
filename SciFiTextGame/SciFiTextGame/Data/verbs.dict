@@ -13,7 +13,7 @@
 "move" VERB GO
 "open" VERB OPEN
 "pick up" VERB GET
-"put" VERB USE
+"pull" VERB USE
 "put down" VERB DROP
 "quit" VERB QUIT
 "score" VERB SCORE
@@ -21,6 +21,8 @@
 "take" VERB GET
 "turn on" VERB USE
 "use" VERB USE
+"put on" VERB USE
+"wear" VERB USE
 "n" EXIT N
 "s" EXIT S
 "e" EXIT E
