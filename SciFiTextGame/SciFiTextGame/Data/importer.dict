@@ -16,3 +16,4 @@
 "alias" DATA_TYPE ALIAS
 "pickup" DATA_TYPE CAN_BE_PICKED_UP
 "detail" DATA_TYPE DETAIL
+"alternate_name" DATA_TYPE ALTERNATE_NAME

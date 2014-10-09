@@ -14,7 +14,7 @@ Game Game::instance;
 Game::Game() :
 grammarTree( std::make_shared<GrammarTree>() ),
 gameOver( false ),
-MAX_SCORE(100) {}
+MAX_SCORE( 100 ) {}
 
 Game::~Game() {}
 
@@ -46,12 +46,12 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
 	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
-	std::cout << std::endl << std::endl << room->GetDescription() << std::endl;
+	std::cout << std::endl << std::endl << "**  " << room->GetDescription() << "  **" << std::endl << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
 	} else {
 		room->SetSeenBefore( true );
-		std::cout << std::endl << room->GetLongDescription();
+		std::cout << room->GetLongDescription();
 		std::vector<GameObject_ptr> contents = room->GetChildren();
 		for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
 			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
@@ -81,6 +81,7 @@ void Game::GetPlayerInput() {
 	std::string playerInput;
 	std::cout << ">> ";
 	std::getline( std::cin, playerInput );
+	std::cout << std::endl;
 	tokenList.clear();
 	tokenList = grammarTree->Tokenize( playerInput );
 }
@@ -119,7 +120,7 @@ void Game::ExecuteCommand() {
 	} else if( verb == TOKEN( "LOOK" ) ) {
 		LookCommand();
 	} else if( verb == TOKEN( "OPEN" ) ) {
-		//OpenCommand();
+		OpenCommand( nounList );
 	} else if( verb == TOKEN( "QUIT" ) ) {
 		QuitCommand();
 	} else if( verb == TOKEN( "SCORE" ) ) {
@@ -127,7 +128,7 @@ void Game::ExecuteCommand() {
 	} else if( verb == TOKEN( "USE" ) ) {
 		//UseCommand();
 	} else {
-		std::cout << "Error: Undefined Verb" << std::endl;
+		std::cout << "I do not understand what you want me to do." << std::endl;
 	}
 }
 
@@ -222,8 +223,15 @@ void Game::LookCommand() {
 	currentRoom->SetSeenBefore( false );
 }
 
-void Game::OpenCommand() {
-
+void Game::OpenCommand( std::list<Token_ptr> nounList ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		if( *nounIter == TOKEN( "LOCKER" ) ) {
+			GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
+			World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
+		} else {
+			std::cout << "You can't open that." << std::endl;
+		}
+	}
 }
 
 void Game::PutCommand() {

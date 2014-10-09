@@ -31,7 +31,7 @@ private:
 	void GoCommand( std::list<Token_ptr> nounList );
 	void InventoryCommand();
 	void LookCommand();
-	void OpenCommand();
+	void OpenCommand( std::list<Token_ptr> nounList );
 	void PutCommand();
 	void QuitCommand();
 	void ScoreCommand();

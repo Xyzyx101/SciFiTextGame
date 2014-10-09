@@ -81,15 +81,16 @@ void WorldBuilder::AddNextToken( Token_ptr nextToken ) {
 		syntaxTree->MoveToParent();
 	} else if( nextToken == TOKEN( "DESCRIPTION" )
 			   || nextToken == TOKEN( "LONG_DESCRIPTION" )
-			   || nextToken == TOKEN( "ALIAS" ) 
-			   || nextToken == TOKEN( "DETAIL") ) {
+			   || nextToken == TOKEN( "ALIAS" )
+			   || nextToken == TOKEN( "DETAIL" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
 		Edge_ptr newEdge = std::make_shared<Edge>( (*tokenList.begin())->GetProperty(), newNode );
 		syntaxTree->InsertChild( newEdge );
 		tokenList.pop_front();
 	} else if( nextToken == TOKEN( "EXITS" )
-			   || nextToken == TOKEN( "CHILDREN" ) ) {
+			   || nextToken == TOKEN( "CHILDREN" )
+			   || nextToken == TOKEN( "ALTERNATE_NAME" ) ) {
 		ExpectingToken( TOKEN( "COLON" ) );
 		Node_ptr newNode = std::make_shared<Node>( nextToken );
 		Edge_ptr newEdge = std::make_shared<Edge>( "", newNode );
@@ -157,6 +158,10 @@ void WorldBuilder::AddAllObjectsToWorld() {
 				longDescription = (*propertyIter)->prefix;
 			} else if( propToken == TOKEN( "DETAIL" ) ) {
 				detail = (*propertyIter)->prefix;
+			} else if( propToken == TOKEN( "ALTERNATE_NAME" ) ) {
+				for( auto aliasIter = (*propertyIter)->node->children.begin( ); aliasIter != (*propertyIter)->node->children.end( ); ++aliasIter ) {
+					AddObjectToDictionary( "NOUN", name, (*aliasIter)->prefix );
+				}
 			} else if( propToken == TOKEN( "CAN_BE_PICKED_UP" ) ) {
 				canBePickedUp = true;
 			}
@@ -194,8 +199,8 @@ void WorldBuilder::AddObjectToDictionary( const std::string& type, const std::st
 }
 
 void WorldBuilder::AddObjectToDictionary( const std::string& type, const std::string& name, const std::string& alias ) const {
-	Token_ptr newToken = TokenPool::Instance( ).NewToken( type, name );
-	Game::Instance( ).AddNodeToGrammarTree( newToken, alias );
+	Token_ptr newToken = TokenPool::Instance().NewToken( type, name );
+	Game::Instance().AddNodeToGrammarTree( newToken, alias );
 }
 
 void WorldBuilder::CreateWorldTreeStructure() {
@@ -244,7 +249,7 @@ void WorldBuilder::AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) con
 		while( aliasIter != (*exitIter)->node->children.end() ) {
 			std::string alias = (*aliasIter)->prefix;
 			AddObjectToDictionary( "EXIT", alias );
-			GameObject_ptr exitObject = World::Instance( ).GetObjectFromToken(exitToken);
+			GameObject_ptr exitObject = World::Instance().GetObjectFromToken( exitToken );
 			Room_ptr exitRoom = std::dynamic_pointer_cast<Room>(exitObject);
 			Room_ptr thisRoom = std::dynamic_pointer_cast<Room>(room);
 			if( exitRoom == nullptr || thisRoom == nullptr ) {
