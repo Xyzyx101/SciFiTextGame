@@ -41,7 +41,7 @@ void WorldBuilder::TokenizeFile( const std::string& dataFile ) {
 		std::cout << std::endl << "Error opening file <" << dataFile << ">" << std::endl;
 	} else {
 		file.seekg( 0, std::ios::end );
-		size_t fileSize = static_cast<size_t>(file.tellg());
+		size_t fileSize = static_cast< size_t >(file.tellg());
 		file.seekg( 0, std::ios::beg );
 		std::string fileString( fileSize, ' ' );
 		file.read( &fileString[0], fileSize );
@@ -160,7 +160,7 @@ void WorldBuilder::AddAllObjectsToWorld() {
 			} else if( propToken == TOKEN( "DETAIL" ) ) {
 				detail = (*propertyIter)->prefix;
 			} else if( propToken == TOKEN( "ALTERNATE_NAME" ) ) {
-				for( auto aliasIter = (*propertyIter)->node->children.begin( ); aliasIter != (*propertyIter)->node->children.end( ); ++aliasIter ) {
+				for( auto aliasIter = (*propertyIter)->node->children.begin(); aliasIter != (*propertyIter)->node->children.end(); ++aliasIter ) {
 					AddObjectToDictionary( "NOUN", name, (*aliasIter)->prefix );
 				}
 			} else if( propToken == TOKEN( "CAN_BE_PICKED_UP" ) ) {
@@ -254,8 +254,8 @@ void WorldBuilder::AddExitsToRoom( GameObject_ptr room, Node_ptr exitsNode ) con
 			std::string alias = (*aliasIter)->prefix;
 			AddObjectToDictionary( "EXIT", alias );
 			GameObject_ptr exitObject = World::Instance().GetObjectFromToken( exitToken );
-			Room_ptr exitRoom = std::dynamic_pointer_cast<Room>(exitObject);
-			Room_ptr thisRoom = std::dynamic_pointer_cast<Room>(room);
+			Room_ptr exitRoom = std::dynamic_pointer_cast< Room >(exitObject);
+			Room_ptr thisRoom = std::dynamic_pointer_cast< Room >(room);
 			if( exitRoom == nullptr || thisRoom == nullptr ) {
 				std::cout << "Error parsing exits for " << room->GetName() << std::endl;
 			} else {

@@ -31,8 +31,8 @@ void SyntaxTree::InsertChild( Edge_ptr newEdge ) {
 }
 
 void SyntaxTree::InsertChildAndMakeCurrent( Edge_ptr newEdge ) {
-	InsertChild(newEdge);
-	parentStack.push(currentNode);
+	InsertChild( newEdge );
+	parentStack.push( currentNode );
 	currentNode = newEdge->node;
 }
 

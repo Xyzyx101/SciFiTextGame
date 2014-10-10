@@ -9,7 +9,7 @@ void Instructions::Display() {
 	std::cout << std::endl << std::endl;
 	std::cout << "Instructions:" << std::endl << std::endl;
 	std::cout << "You interact with the game by typing commands at the prompt '>>'" << std::endl;
-	std::cout << "e.g." << std::endl;		
+	std::cout << "e.g." << std::endl;
 	std::cout << "			'go south'" << std::endl;
 	std::cout << "			'take thing'" << std::endl;
 	std::cout << "			'climb whatsit'" << std::endl;

@@ -1,7 +1,7 @@
 #include"GameObject.h"
 #include"World.h"
 
-GameObject::GameObject( std::string name, std::string description, std::string longDescription) :
+GameObject::GameObject( std::string name, std::string description, std::string longDescription ) :
 name( name ),
 description( description ),
 longDescription( longDescription ),
@@ -12,8 +12,8 @@ GameObject::GameObject( std::string name, std::string description, std::string l
 name( name ),
 description( description ),
 longDescription( longDescription ),
-detail(detail),
-canBePickedUp(false) {}
+detail( detail ),
+canBePickedUp( false ) {}
 
 GameObject::~GameObject() {}
 
@@ -25,11 +25,11 @@ const std::string GameObject::GetLongDescription() const {
 	return longDescription;
 }
 
-void GameObject::SetLongDescription( const std::string& newString) {
+void GameObject::SetLongDescription( const std::string& newString ) {
 	longDescription = newString;
 }
 
-const std::string GameObject::GetDetail( ) const {
+const std::string GameObject::GetDetail() const {
 	if( detail == "" ) {
 		return longDescription;
 	} else {
@@ -52,7 +52,7 @@ void GameObject::SetParent( GameObject_ptr newParent ) {
 void GameObject::AddChild( GameObject_ptr child ) {
 	children.push_back( child );
 	/* Get the pointer from world to make sure the pointer is ref counted properly */
-	GameObject_ptr sharedThis = World::Instance( ).GetObjectFromName(name);
+	GameObject_ptr sharedThis = World::Instance().GetObjectFromName( name );
 	child->SetParent( sharedThis );
 }
 

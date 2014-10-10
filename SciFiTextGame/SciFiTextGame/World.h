@@ -7,7 +7,8 @@ class Token;
 class GameObject;
 class Player;
 
-/* World is the root of a tree made up of all GameObjects. */
+/* World is the root of a tree made up of all GameObjects.  GameObjects
+position in the tree represent their position in th world. */
 class World {
 public:
 	/* Gets a reference to the one instance of a game world */

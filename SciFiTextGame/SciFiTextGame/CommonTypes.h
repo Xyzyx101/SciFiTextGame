@@ -19,4 +19,4 @@ class Player;
 typedef std::shared_ptr<Player>			Player_ptr;
 
 class Cable;
-typedef std::shared_ptr<Cable>		Cable_ptr;
+typedef std::shared_ptr<Cable>			Cable_ptr;

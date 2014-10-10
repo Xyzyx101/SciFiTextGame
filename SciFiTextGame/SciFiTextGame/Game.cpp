@@ -31,7 +31,7 @@ void Game::InitGrammarWithFile( std::string filename ) {
 
 void Game::Play() {
 	do {
-		CheckScore( );
+		CheckScore();
 		DisplayCurrentLocation();
 		CheckSpecialConditions();
 		if( gameOver ) { break; } // this is an extra check in case you die because of a special condition
@@ -429,11 +429,11 @@ void Game::CheckScore() {
 	if( newScore > score ) {
 		std::cout << "You have gained " << newScore - score << " points." << std::endl;
 		score = newScore;
-		ScoreCommand( );
+		ScoreCommand();
 	} else if( newScore < score ) {
 		std::cout << "You have lost " << score - newScore << " points." << std::endl;
 		score = newScore;
-		ScoreCommand( );
+		ScoreCommand();
 	} else {
 		//do nothing if the score didn't change
 	}

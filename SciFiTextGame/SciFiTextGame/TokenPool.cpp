@@ -18,9 +18,9 @@ TokenPool& TokenPool::Instance() {
 
 /*TokenPool& TokenPool::operator=(const TokenPool& rhs) {
 	return instance;
-}*/
+	}*/
 
-Token_ptr TokenPool::NewToken(std::string type, std::string name) {
+Token_ptr TokenPool::NewToken( std::string type, std::string name ) {
 	Token::TokenType tokenType;
 	if( type == "VERB" ) {
 		tokenType = Token::TokenType::VERB;
@@ -39,9 +39,9 @@ Token_ptr TokenPool::NewToken(std::string type, std::string name) {
 	} else if( type == "STRING" ) {
 		return nullptr;
 	}
-	AllCaps(name);
+	AllCaps( name );
 	std::map<std::string, Token_ptr>::iterator checkToken = tokenMap.find( name );
-	if(  checkToken != tokenMap.end() ) {
+	if( checkToken != tokenMap.end() ) {
 		return checkToken->second;
 	}
 	Token_ptr newToken = std::make_shared<Token>( tokenType, name );
@@ -49,9 +49,9 @@ Token_ptr TokenPool::NewToken(std::string type, std::string name) {
 	return newToken;
 }
 
-Token_ptr const TokenPool::GetToken(const std::string& name) {
+Token_ptr const TokenPool::GetToken( const std::string& name ) {
 	std::string capName = name;
-	AllCaps(capName);
+	AllCaps( capName );
 	auto it = tokenMap.find( capName );
 	if( it == tokenMap.end() ) {
 		std::cout << "Bad Token: " << capName << std::endl;

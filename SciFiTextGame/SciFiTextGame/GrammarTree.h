@@ -36,6 +36,8 @@ private:
 	/* This parses one line, adds the token to the token pool and adds the node to grammar tree. */
 	void						AddNodeWithString( const std::string& line );
 
+	/* This strips of extra tabs, spaces and newlines.  This is so I can format data files to be
+	human readable without changing the syntax.  */
 	void						RemoveLeadingWhitespace( std::string& command ) const;
 
 	Node_ptr					root;

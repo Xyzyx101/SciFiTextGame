@@ -3,6 +3,9 @@
 #include<map>
 #include"CommonTypes.h"
 
+/* Tokens represent all of the verbs and nouns known to the grammar tree.  Tokens are
+never created or destroyed by game code.  They are created when the world is built and
+used by game code using the TOKEN("name") function. */
 class TokenPool {
 public:
 	/* Used to get access to the one instance of the token pool */
@@ -15,12 +18,16 @@ public:
 	Token_ptr const									GetToken( const std::string& name );
 
 private:
+	/* There is one instance of token pool and it cannot be created, changed, destroyed or
+	to a function in game code. */
 	TokenPool();
 	~TokenPool();
-	TokenPool( const TokenPool& src )				= delete;
-	TokenPool& operator=(const TokenPool& rhs)		= delete;
+	TokenPool( const TokenPool& src ) = delete;
+	TokenPool& operator=(const TokenPool& rhs) = delete;
+
+	/* Tokens are not case sensative and will always be stored in all caps. */
 	void											AllCaps( std::string& aString );
-	
+
 	std::map<std::string, Token_ptr>				tokenMap;
 	static TokenPool								instance;
 };
