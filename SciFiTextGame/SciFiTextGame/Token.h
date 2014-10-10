@@ -11,7 +11,8 @@ public:
 		PUNC,
 		DATA_TYPE,
 		STRING,
-		EXIT
+		EXIT,
+		FLUFF
 	};
 
 	Token( TokenType type, std::string property );

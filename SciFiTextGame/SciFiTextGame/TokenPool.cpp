@@ -34,6 +34,8 @@ Token_ptr TokenPool::NewToken(std::string type, std::string name) {
 		tokenType = Token::TokenType::DATA_TYPE;
 	} else if( type == "EXIT" ) {
 		tokenType = Token::TokenType::EXIT;
+	} else if( type == "FLUFF" ) {
+		tokenType = Token::TokenType::FLUFF;
 	} else if( type == "STRING" ) {
 		return nullptr;
 	}

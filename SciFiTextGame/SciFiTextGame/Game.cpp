@@ -260,6 +260,7 @@ void Game::LookCommand() {
 void Game::OpenCommand( std::list<Token_ptr> nounList ) {
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		if( *nounIter == TOKEN( "LOCKER" ) ) {
+			std::cout << "The locker contains a space suit." << std::endl;
 			GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
 			World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
 			LookCommand();

@@ -22,6 +22,7 @@
 "score" VERB SCORE
 "search" VERB EXAMINE
 "take" VERB GET
+"throw" VERB USE
 "turn on" VERB USE
 "use" VERB USE
 "put on" VERB USE
@@ -39,3 +40,7 @@
 "up" EXIT UP
 "down" EXIT DOWN
 "x" VERB EXAMINE
+"on" FLUFF FLUFF
+"into" FLUFF FLUFF
+"with" FLUFF FLUFF
+"in" FLUFF FLUFF
