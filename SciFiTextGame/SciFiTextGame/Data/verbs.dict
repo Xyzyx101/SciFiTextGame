@@ -4,7 +4,6 @@
 "drop" VERB DROP
 "enter" VERB GO
 "examine" VERB EXAMINE
-"exit" VERB GO
 "get" VERB GET
 "go" VERB GO
 "help" VERB HELP
@@ -44,3 +43,4 @@
 "into" FLUFF FLUFF
 "with" FLUFF FLUFF
 "in" FLUFF FLUFF
+"and" FLUFF FLUFF

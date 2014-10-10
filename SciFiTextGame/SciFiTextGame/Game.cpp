@@ -51,7 +51,7 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr room = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
+	Room_ptr room = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	std::cout << std::endl << std::endl << "**  " << room->GetDescription() << "  **" << std::endl << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
@@ -60,10 +60,10 @@ void Game::DisplayCurrentLocation() {
 		std::cout << room->GetLongDescription();
 		std::vector<GameObject_ptr> contents = room->GetChildren();
 		for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+			if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 				continue;
 			}
-			std::cout << "  " << (*contentsIter)->GetLongDescription();
+			std::cout << "  " << ( *contentsIter )->GetLongDescription();
 		}
 		std::cout << std::endl;
 	}
@@ -77,10 +77,10 @@ void Game::DisplaySimpleRoomContents( Room_ptr room ) {
 	}
 	std::cout << "There are items here:" << std::endl;
 	for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-		if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
+		if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
 			continue;
 		}
-		std::cout << (*contentsIter)->GetDescription() << std::endl;
+		std::cout << ( *contentsIter )->GetDescription() << std::endl;
 	}
 }
 void Game::CheckSpecialConditions() {
@@ -89,7 +89,7 @@ void Game::CheckSpecialConditions() {
 		std::cout << "You slip and fall to your death.  I guess that's why they call the cliffs impassable." << std::endl;
 		Die();
 	} else if( currentRoom == TOKEN( "NARROW_PATH" ) ) {
-		Cable_ptr foCable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+		Cable_ptr foCable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 		if( foCable->OneEndPlugged() ) {
 			std::cout << std::endl << "The fibre optic cable suddenly pulls tight for a second and then goes slack.  The end must have pulled out of the data port.  The cable is long but not that long." << std::endl;
 			foCable->SetOneEnd( nullptr );
@@ -189,6 +189,10 @@ void Game::Die() {
 }
 
 void Game::ClimbCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		if( *nounIter == TOKEN( "CLIFF" ) || *nounIter == TOKEN( "RAVINE" ) ) {
 			tokenList.push_back( TOKEN( "GO" ) );
@@ -201,6 +205,10 @@ void Game::ClimbCommand( std::list<Token_ptr> nounList ) {
 }
 
 void Game::DropCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
 		std::cout << object->GetDescription() << " dropped." << std::endl;
@@ -209,6 +217,10 @@ void Game::DropCommand( std::list<Token_ptr> nounList ) {
 }
 
 void Game::ExamineCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
 		std::cout << object->GetDetail() << std::endl;
@@ -216,6 +228,10 @@ void Game::ExamineCommand( std::list<Token_ptr> nounList ) {
 }
 
 void Game::GetCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
 		if( !World::Instance().IsObjectLocal( *nounIter ) ) {
@@ -230,10 +246,11 @@ void Game::GetCommand( std::list<Token_ptr> nounList ) {
 }
 
 void Game::GoCommand( std::list<Token_ptr> nounList ) {
-	if( nounList.size() > 1 ) {
+	if( nounList.size() != 1 ) {
 		std::cout << "I do not understand." << std::endl;
+		return;
 	}
-	Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	Room_ptr targetRoom = currentRoom->GetExit( nounList.front() );
 	if( targetRoom == nullptr ) {
 		std::cout << "There is no exit in that direction." << std::endl;
@@ -255,17 +272,21 @@ void Game::InventoryCommand() {
 		std::cout << "Nothing" << std::endl;
 	}
 	for( auto inventoryIter = inventory.begin(); inventoryIter != inventory.end(); ++inventoryIter ) {
-		std::cout << (*inventoryIter)->GetDescription() << std::endl;
+		std::cout << ( *inventoryIter )->GetDescription() << std::endl;
 	}
 }
 
 void Game::LookCommand() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
 	currentRoom->SetSeenBefore( false );
 }
 
 void Game::OpenCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		if( *nounIter == TOKEN( "LOCKER" ) ) {
 			std::cout << "The locker contains a space suit." << std::endl;
@@ -300,6 +321,10 @@ void Game::ScoreCommand() {
 }
 
 void Game::UseCommand( std::list<Token_ptr> nounList ) {
+	if( nounList.size() < 1 ) {
+		std::cout << "I don't understand." << std::endl;
+		return;
+	}
 	if( nounList.size() == 1 ) {
 		for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 			if( *nounIter == TOKEN( "LOCKER" ) ) {
@@ -321,8 +346,8 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					airlock->SetLongDescription( "You can see rocks and rubble through the open door to the west." );
 					airlock->SetDetail( "The door is open." );
 					assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-					Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
-					Room_ptr outside = std::dynamic_pointer_cast< Room >(World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ));
+					Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+					Room_ptr outside = std::dynamic_pointer_cast<Room>( World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ) );
 					currentRoom->AddExit( TOKEN( "EAST" ), outside );
 					airlockOpen = true;
 				} else {
@@ -343,7 +368,7 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 				nounList.erase( nounIter );
 				if( nounList.front() == TOKEN( "DATA_PORT" ) ) {
 					std::cout << "You plug one end of the fibre optic cable into the data port on the side of the ship." << std::endl;
-					Cable_ptr cable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+					Cable_ptr cable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 					cable->SetOneEnd( World::Instance().GetObjectFromToken( TOKEN( "DATA_PORT" ) ) );
 					if( cable->BothEndsPlugged() ) {
 						tokenList.push_back( TOKEN( "DROP" ) );
@@ -352,7 +377,7 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					}
 				} else if( nounList.front() == TOKEN( "ANTENNA" ) ) {
 					std::cout << "You plug one end of the fibre optic cable into salvaged antenna." << std::endl;
-					Cable_ptr cable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+					Cable_ptr cable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 					cable->SetTheOtherEnd( World::Instance().GetObjectFromToken( TOKEN( "ANTENNA" ) ) );
 					if( cable->BothEndsPlugged() ) {
 						tokenList.push_back( TOKEN( "DROP" ) );
@@ -361,7 +386,7 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					}
 				} else if( nounList.front() == TOKEN( "RAVINE" ) ) {
 					std::cout << "The end of the cable disappears into the ravine." << std::endl;
-					Cable_ptr cable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+					Cable_ptr cable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 					GameObject_ptr slopeRoom = World::Instance().GetObjectFromToken( TOKEN( "SLOPE" ) );
 					World::Instance().MoveObject( cable, slopeRoom );
 				} else {
@@ -372,7 +397,7 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 				nounList.erase( nounIter );
 				if( nounList.front() == TOKEN( "SOCKET" ) ) {
 					std::cout << "You plug one end of the power conduit into the auxiliary power socket of the computer." << std::endl;
-					Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ));
+					Cable_ptr conduit = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ) );
 					conduit->SetOneEnd( World::Instance().GetObjectFromToken( TOKEN( "SOCKET" ) ) );
 					if( conduit->BothEndsPlugged() ) {
 						tokenList.push_back( TOKEN( "DROP" ) );
@@ -381,7 +406,7 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					}
 				} else if( nounList.front() == TOKEN( "SOLAR_PANEL" ) ) {
 					std::cout << "You plug one end of the power conduit into the spare solar panel." << std::endl;
-					Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ));
+					Cable_ptr conduit = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ) );
 					conduit->SetTheOtherEnd( World::Instance().GetObjectFromToken( TOKEN( "SOLAR_PANEL" ) ) );
 					if( conduit->BothEndsPlugged() ) {
 						tokenList.push_back( TOKEN( "DROP" ) );
@@ -412,7 +437,7 @@ void Game::CheckScore() {
 	GameObject_ptr crystalGrotto = World::Instance().GetObjectFromToken( TOKEN( "CRYSTAL_GROTTO" ) );
 	if( solarPanel->GetParent() == crystalGrotto ) {
 		newScore += 15;
-		Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ));
+		Cable_ptr conduit = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ) );
 		if( conduit->BothEndsPlugged() ) {
 			newScore += 15;
 		}
@@ -421,7 +446,7 @@ void Game::CheckScore() {
 	GameObject_ptr ravineTop = World::Instance().GetObjectFromToken( TOKEN( "RAVINE_TOP" ) );
 	if( antenna->GetParent() == ravineTop ) {
 		newScore += 15;
-		Cable_ptr foCable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+		Cable_ptr foCable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 		if( foCable->BothEndsPlugged() ) {
 			newScore += 15;
 		}
@@ -442,12 +467,12 @@ void Game::CheckScore() {
 void Game::UseComputer() {
 	GameObject_ptr solarPanel = World::Instance().GetObjectFromToken( TOKEN( "SOLAR_PANEL" ) );
 	GameObject_ptr crystalGrotto = World::Instance().GetObjectFromToken( TOKEN( "CRYSTAL_GROTTO" ) );
-	Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ));
+	Cable_ptr conduit = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ) );
 	if( solarPanel->GetParent() == crystalGrotto
 		&& conduit->BothEndsPlugged() ) {
 		GameObject_ptr antenna = World::Instance().GetObjectFromToken( TOKEN( "ANTENNA" ) );
 		GameObject_ptr ravineTop = World::Instance().GetObjectFromToken( TOKEN( "RAVINE_TOP" ) );
-		Cable_ptr foCable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+		Cable_ptr foCable = std::dynamic_pointer_cast<Cable>( World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ) );
 		if( antenna->GetParent() == ravineTop
 			&& foCable->BothEndsPlugged() ) {
 			std::cout << "The computer works.  You start the communication program and try to contact your orbiter.  You get a response \"We are reading you.  We have the second landing vehicle ready for a rescue mission.  We will be landing near your position ASAP.\" " << std::endl;
