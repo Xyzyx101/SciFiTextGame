@@ -1,5 +1,6 @@
 "activate" VERB USE
 "close" VERB CLOSE
+"climb" VERB CLIMB
 "drop" VERB DROP
 "enter" VERB GO
 "examine" VERB EXAMINE

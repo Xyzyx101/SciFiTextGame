@@ -186,7 +186,7 @@ name : "handle" {
 name : "outside_ship" {
 	type : room,
 	description : "Outside Ship",
-	long_description : "You are standing at the bottom of a deep ravine.  Far above you you can see stars through a narrow gap between the ravine walls.  Next to you is a demolished landing vehicle embedded in the wall of the ravine.  The vehicle is half buried in rubble and has clouds of gas escapeing through holes ripped in its skin.  To the west is an airlock leading back into the ship.  The ravine slopes slowly down to the north.  The back of the ship extends to the south.",
+	long_description : "You are standing at the bottom of a deep ravine.  Far above you you can barely make out stars through a narrow gap between the ravine walls.  Next to you is a demolished landing vehicle embedded in the wall of the ravine.  The vehicle is half buried in rubble and has clouds of gas escapeing through holes ripped in its skin.  To the west is an airlock leading back into the ship.  The ravine slopes slowly down to the north.  The back of the ship extends to the south.",
 	exits : {
 		name : "airlock_room" {
 				alias : "west",
@@ -195,9 +195,38 @@ name : "outside_ship" {
 		name : "behind_ship" {
 				alias : "south",
 			}
+		name : "ravine_end" {
+			alias : "north",
+			alias : "down"
+		}
 	},
 	children : {
+		name : "antenna" {},
+		name : "data_port" {}
+
 	}
+}
+
+name : "antenna" {
+	type : object,
+	description : "Antenna",
+	pickup,
+	alternate_name : {
+		alias : "communication antenna"
+	},
+	long_description : "There is a communication anntenae on the ground here.  Amazingly it seems to be intact.",
+	detail : "There is a small port where a fibre optic cable should be plugged in."
+}
+
+name : "data_port" {
+	type : object,
+	description : "Data Port",
+	alternate_name : {
+		alias : "data port",
+		alias : "port",
+	}
+	long_description : "There is a data port attached to the side of the ship here."
+	detail : "This is probably where the antenna should be plugged in."
 }
 
 name : "behind_ship" {
@@ -233,7 +262,7 @@ name : "power_conduit" {
 	pickup,
 	description : "Power conduit",
 	long_description : "A very long power conduit is on the floor here.",
-	detail : "It seems to be a very long power conduit."
+	detail : "It is a very long power conduit."
 }
 
 name : "slope" {
@@ -244,10 +273,13 @@ name : "slope" {
 		name : "behind_ship" {
 				alias : "down",
 				alias : "north"
+			},
+		name : "on_the_cliff" {
+				alias : "up"
 			}
 	},
 	children : {
-		name : cliff
+		name : "cliff" {}
 	}
 }
 
@@ -256,4 +288,116 @@ name : "cliff" {
 	description : "Cliff",
 	long_description : "",
 	detail : "The cliffs are vertical and impassable."
+}
+
+name : "on_the_cliff" {
+	type : room,
+	description : "On the Cliff",
+	long_description : "You are half way up the slippery jagged cliff.",
+	exits : {
+	},
+	children : {
+	}
+}
+
+name : "ravine_end" {
+	type : room,
+	description : "End of the Ravine",
+	long_description : "You are standing at the end of a deep ravine.  You can see the remains of your ship to the south.  There is a small dark passageway in the wall of the cliff to the north.",
+	exits : {
+		name : "dark_passage" {
+				alias : "north",
+			}
+		name : "outside_ship" {
+				alias : "south",
+			}
+	},
+	children : {}
+}
+
+name : "dark_passage" {
+	type : room,
+	description : "Dark Passage",
+	long_description : "You are in what appears to be a natural cave.  There is a gap in the wall to the south.  The main tunnel leads east and west from here.",
+	exits : {
+		name : "ravine_end" {
+				alias : "south",
+			}
+		name : "steep_tunnel" {
+				alias : "east",
+			}
+		name : "narrow_path" {
+				alias : "west",
+			}
+	},
+	children : {}
+}
+
+name : "steep_tunnel" {
+	type : room,
+	description : "Steep Tunnel",
+	long_description : "The tunnel gets very narrow and starts to curve steeply downward and to the south here.  The tunnel widens to the west.",
+	exits : {
+		name : "crytal_grotto" {
+				alias : "south",
+				alias : "down"
+			}
+		name : "dark_passage" {
+				alias : "west",
+			}
+	},
+	children : {}
+}
+
+name : "crytal_grotto" {
+	type : room,
+	description : "Crystal Grotto",
+	long_description : "The tunnel opens up into a huge room like nothing you have ever seen before.  The walls, floor and ceiling of the room is made from massive glowing crytals.  The crytals must be refracting sunlight from  far side of the asteroid.  It is so bright in here that it almost hurts your eyes.  There is an opening in the wall to the north.",
+	exits : {
+		name : "steep_tunnel" {
+				alias : "north",
+			}
+	},
+	children : {}
+}
+
+name : "narrow_path" {
+	type : room,
+	description : "Narrow Path",
+	long_description : "The tunnel exits onto a narrow craggy path on the side of mountain leading up and to the west.  There are impassable slopes going up on one side and down to into the darkness on the other.  There is a tunnel entrance down and to the east.",
+	exits : {
+		name : "dark_passage" {
+				alias : "east",
+				alias : "down"
+			}
+		name : "ravine_top" {
+				alias : "west",
+				alias : "up"
+			}
+	},
+	children : {}
+}
+
+name : "ravine_top" {
+	type : room,
+	description : "Top of the Ravine",
+	long_description : "You are standing at the top of the ravine that your ship must have crashed into.  The sun is on the opposite side of the asteroid so it is still very dark but far below you can just make out the smoking ruin of your ship in the ravine.  A narrow path leads east.",
+	exits : {
+		name : "narrow_path" {
+			alias : "east"
+		},
+		name : "on_the_cliff" {
+			alias : "down"
+		}
+	},
+	children : {
+		name : "ravine" {}
+	}
+}
+
+name : "ravine" {
+	type : object,
+	description : "A deep ravine",
+	long_description : "The ravine walls go stright down and are covered in jagged sharp rocks.",
+	detail : "The ravine walls are impossibly steep and impassable."
 }

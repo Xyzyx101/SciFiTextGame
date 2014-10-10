@@ -6,6 +6,7 @@
 #include<cctype>
 #include<fstream>
 #include<string>
+#include<assert.h>
 
 GrammarTree::GrammarTree() {
 	root = std::make_shared<Node>();
@@ -85,13 +86,14 @@ std::list<Token_ptr> GrammarTree::Tokenize( std::string& command ) const {
 	/* As the sentance is tokenized we remove the used part of the command string. */
 	while( command.length() > 0 ) {
 		Token_ptr token;
-		if( command[0] == '"' ) {
+		if( *command.begin() == '"' ) {
 			token = GetStringToken( command );
 		} else {
 			token = Find_r( root, command, failWord );
 		}
 		if( token == nullptr ) {
 			std::cout << "I do not understand the word " << failWord << "." << std::endl;
+			//assert(false);
 			tokens.clear();
 			return tokens;
 		} else {

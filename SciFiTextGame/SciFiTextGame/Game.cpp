@@ -27,8 +27,10 @@ void Game::InitGrammarWithFile( std::string filename ) {
 }
 
 void Game::Play() {
-	while( !gameOver ) {
+	do {
 		DisplayCurrentLocation();
+		CheckSpecialConditions();
+		if( gameOver ) { break; } //this is an extra check in case you die because of a special condition
 		GetPlayerInput();
 		if( tokenList.size() != 0 ) {
 			ExecuteCommand();
@@ -36,7 +38,7 @@ void Game::Play() {
 		if( score >= MAX_SCORE ) {
 			Win();
 		}
-	}
+	} while( !gameOver );
 }
 
 void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias ) {
@@ -45,7 +47,7 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr room = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
 	std::cout << std::endl << std::endl << "**  " << room->GetDescription() << "  **" << std::endl << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
@@ -54,10 +56,10 @@ void Game::DisplayCurrentLocation() {
 		std::cout << room->GetLongDescription();
 		std::vector<GameObject_ptr> contents = room->GetChildren();
 		for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-			if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
+			if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
 				continue;
 			}
-			std::cout << "  " << ( *contentsIter )->GetLongDescription();
+			std::cout << "  " << (*contentsIter)->GetLongDescription();
 		}
 		std::cout << std::endl;
 	}
@@ -65,15 +67,23 @@ void Game::DisplayCurrentLocation() {
 
 void Game::DisplaySimpleRoomContents( Room_ptr room ) {
 	std::vector<GameObject_ptr> contents = room->GetChildren();
-	if( contents.size() == 0 ) {
+	if( contents.size() == 1 ) {
+		/* This displays nothing if there are no contents.  It checks for 1 and not 0 because the player is always in the current room. */
 		return;
 	}
 	std::cout << "There are items here:" << std::endl;
 	for( auto contentsIter = contents.begin(); contentsIter != contents.end(); ++contentsIter ) {
-		if( ( *contentsIter )->GetType() == GameObject_t::PLAYER ) {
+		if( (*contentsIter)->GetType() == GameObject_t::PLAYER ) {
 			continue;
 		}
-		std::cout << ( *contentsIter )->GetDescription() << std::endl;
+		std::cout << (*contentsIter)->GetDescription() << std::endl;
+	}
+}
+void Game::CheckSpecialConditions() {
+	Token_ptr currentRoom = TOKEN( World::Instance().GetPlayer()->GetParent()->GetName() );
+	if( currentRoom == TOKEN( "ON_THE_CLIFF" ) ) {
+		std::cout << "You slip and fall to your death.  I guess that's why they call the cliffs impassable." << std::endl;
+		Die();
 	}
 }
 
@@ -107,6 +117,8 @@ void Game::ExecuteCommand() {
 	if( verb == nullptr &&
 		nounList.front()->GetType() == Token::EXIT ) {
 		HandleOneWordMovement( nounList.front() );
+	} else if( verb == TOKEN( "CLIMB" ) ) {
+		ClimbCommand( nounList );
 	} else if( verb == TOKEN( "DROP" ) ) {
 		DropCommand( nounList );
 	} else if( verb == TOKEN( "EXAMINE" ) ) {
@@ -164,6 +176,18 @@ void Game::Die() {
 	gameOver = true;
 }
 
+void Game::ClimbCommand( std::list<Token_ptr> nounList ) {
+	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
+		if( *nounIter == TOKEN( "CLIFF" ) || *nounIter == TOKEN( "RAVINE" ) ) {
+			tokenList.push_back( TOKEN( "GO" ) );
+			tokenList.push_back( TOKEN( "UP" ) );
+			ExecuteCommand();
+		} else {
+			std::cout << "You can't climb that." << std::endl;
+		}
+	}
+}
+
 void Game::DropCommand( std::list<Token_ptr> nounList ) {
 	for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 		GameObject_ptr object = World::Instance().GetObjectFromToken( *nounIter );
@@ -197,7 +221,7 @@ void Game::GoCommand( std::list<Token_ptr> nounList ) {
 	if( nounList.size() > 1 ) {
 		std::cout << "I do not understand." << std::endl;
 	}
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
 	Room_ptr targetRoom = currentRoom->GetExit( nounList.front() );
 	if( targetRoom == nullptr ) {
 		std::cout << "There is no exit in that direction." << std::endl;
@@ -213,13 +237,13 @@ void Game::InventoryCommand() {
 		std::cout << "Nothing" << std::endl;
 	}
 	for( auto inventoryIter = inventory.begin(); inventoryIter != inventory.end(); ++inventoryIter ) {
-		std::cout << ( *inventoryIter )->GetDescription() << std::endl;
+		std::cout << (*inventoryIter)->GetDescription() << std::endl;
 	}
 }
 
 void Game::LookCommand() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
+	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
 	currentRoom->SetSeenBefore( false );
 }
 
@@ -268,8 +292,8 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					airlock->SetLongDescription( "You can see rocks and rubble through the open door to the west." );
 					airlock->SetDetail( "The door is open." );
 					assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-					Room_ptr currentRoom = std::dynamic_pointer_cast<Room>( World::Instance().GetPlayer()->GetParent() );
-					Room_ptr outside = std::dynamic_pointer_cast<Room>( World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ) );
+					Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+					Room_ptr outside = std::dynamic_pointer_cast<Room>(World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ));
 					currentRoom->AddExit( TOKEN( "EAST" ), outside );
 					LookCommand();
 				} else {

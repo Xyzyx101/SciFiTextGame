@@ -17,6 +17,7 @@ private:
 	static Game instance;
 	Game();
 	void DisplayCurrentLocation();
+	void CheckSpecialConditions();
 	void DisplaySimpleRoomContents( Room_ptr room );
 	void GetPlayerInput();
 	void ExecuteCommand();
@@ -25,6 +26,7 @@ private:
 	void Die();
 	void IncrementScore( int scoreIncrease );
 	void GetScore() const;
+	void ClimbCommand( std::list<Token_ptr> nounList );
 	void DropCommand( std::list<Token_ptr> nounList );
 	void ExamineCommand( std::list<Token_ptr> nounList );
 	void GetCommand( std::list<Token_ptr> nounList );
