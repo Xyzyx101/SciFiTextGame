@@ -17,10 +17,12 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="GrammarTree.h" />
+    <ClInclude Include="Instructions.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="SyntaxTree.h" />
+    <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenPool.h" />
     <ClInclude Include="World.h" />
@@ -32,11 +34,13 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="GrammarTree.cpp" />
+    <ClCompile Include="Instructions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="SyntaxTree.cpp" />
+    <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenPool.cpp" />
     <ClCompile Include="World.cpp" />

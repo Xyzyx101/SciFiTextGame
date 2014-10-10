@@ -7,6 +7,7 @@
 "exit" VERB GO
 "get" VERB GET
 "go" VERB GO
+"help" VERB HELP
 "i" VERB INVENTORY
 "inventory" VERB INVENTORY
 "look" VERB LOOK

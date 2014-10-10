@@ -4,11 +4,14 @@
 #include"WorldBuilder.h"
 #include"World.h"
 #include"Game.h"
+#include"TitleScreen.h"
 #include <iostream>
 
 void testGT();
 
 int main() {
+	TitleScreen ts;
+	ts.Display();
 	WorldBuilder* wb = new WorldBuilder;
 	wb->InitGrammarWithFile( "importer.dict" );
 	wb->Build( "world.data", World::Instance() );

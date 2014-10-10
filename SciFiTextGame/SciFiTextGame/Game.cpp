@@ -7,6 +7,7 @@
 #include"Room.h"
 #include"Player.h"
 #include"Cable.h"
+#include"Instructions.h"
 #include<memory>
 #include<assert.h>
 
@@ -128,6 +129,8 @@ void Game::ExecuteCommand() {
 		GoCommand( nounList );
 	} else if( verb == TOKEN( "GET" ) ) {
 		GetCommand( nounList );
+	} else if( verb == TOKEN( "HELP" ) ) {
+		HelpCommand();
 	} else if( verb == TOKEN( "INVENTORY" ) ) {
 		InventoryCommand();
 	} else if( verb == TOKEN( "LOOK" ) ) {
@@ -229,6 +232,12 @@ void Game::GoCommand( std::list<Token_ptr> nounList ) {
 	} else {
 		World::Instance().MoveObject( World::Instance().GetPlayer(), targetRoom );
 	}
+}
+
+void Game::HelpCommand() {
+	Instructions i;
+	i.Display();
+	LookCommand();
 }
 
 void Game::InventoryCommand() {
