@@ -24,8 +24,8 @@ private:
 	void HandleOneWordMovement( Token_ptr exit );
 	void Win();
 	void Die();
-	void IncrementScore( int scoreIncrease );
-	void GetScore() const;
+	void CheckScore();
+	void UseComputer();
 	void ClimbCommand( std::list<Token_ptr> nounList );
 	void DropCommand( std::list<Token_ptr> nounList );
 	void ExamineCommand( std::list<Token_ptr> nounList );
@@ -42,6 +42,7 @@ private:
 	std::shared_ptr<GrammarTree> grammarTree;
 	std::list<Token_ptr> tokenList;
 	bool gameOver;
+	bool airlockOpen;
 	const int							MAX_SCORE;
 	int									score;
 };

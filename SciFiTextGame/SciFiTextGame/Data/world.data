@@ -1,6 +1,6 @@
 name : "player" {
 	type : player,
-	description : "Player",
+	description : "player",
 	long_description : "This is you"
 }
 
@@ -29,14 +29,14 @@ name : "cockpit" {
 
 name : "computer" {
 	type : object,
-	description : "A computer",
+	description : "a computer",
 	long_description : "On the wall is a small computer."
-	detail : "The computer seems to be a communication station.  It is off."
+	detail : "The computer seems to be a communication station."
 }
 
 name : "socket" {
 	type : object,
-	description : "A power socket",
+	description : "a power socket",
 	long_description : "The computer has a socket labeled auxilliary power on the front of the panel."
 	detail : "The socket has nothing plugged in."
 }
@@ -65,7 +65,7 @@ name : "small_corridor" {
 
 name : "locker" {
 	type : object,
-	description : "Locker",
+	description : "locker",
 	long_description : "Against the wall is a large locker."
 	detail : "It seems to be unlocked."
 }
@@ -77,7 +77,7 @@ name : "space_suit" {
 		alias : "space suit",
 		alias : "suit"
 	}
-	description : "Space suit",
+	description : "space suit",
 	long_description : "A shiny white space suit is on the floor.  It looks like it has never been used."
 	detail : "There is a samll panel that indicates the suit has fully powered batteries and a full tank of oxygen."
 }
@@ -119,7 +119,7 @@ name : "fo_cable" {
 		alias : "fibre optic cable"
 		alias : "fibre optic data cable"
 	}
-	description : "Fibre optic data cable",
+	description : "fibre optic data cable",
 	long_description : "There is a fibre optic data cable here.",
 	detail : "It is a long roll of fibre optic cable. "
 }
@@ -167,21 +167,21 @@ name : "airlock_room" {
 
 name : "airlock_door" {
 	type : object,
-	description : "Airlock door",
+	description : "airlock door",
 	long_description : "To the west is the large exterior airlock door."
 	detail : "The door is closed."
 }
 
 name : "airlock_controls" {
 	type : object,
-	description : "Airlock controls",
+	description : "airlock controls",
 	long_description : "There are controls for the airlock on the wall."
 	detail : "The screens are dark and the controls do not seem to be working."
 }
 
 name : "handle" {
 	type : object,
-	description : "Manual override handle",
+	description : "manual override handle",
 	long_description : "The is a red handle labeled Manual Override.",
 	detail : "There is a small label next to the handle that says 'Use handle to open the airlock in case of computer or power failure'."
 }
@@ -212,7 +212,7 @@ name : "outside_ship" {
 
 name : "antenna" {
 	type : object,
-	description : "Antenna",
+	description : "antenna",
 	pickup,
 	alternate_name : {
 		alias : "communication antenna"
@@ -223,7 +223,7 @@ name : "antenna" {
 
 name : "data_port" {
 	type : object,
-	description : "Data Port",
+	description : "data port",
 	alternate_name : {
 		alias : "data port",
 		alias : "port",
@@ -255,7 +255,7 @@ name : "behind_ship" {
 
 name : "access_hatch" {
 	type : object,
-	description : "Access hatch",
+	description : "access hatch",
 	long_description : "There is an hatch built into the side of the ship here.",
 	detail : "The hatch is closed."
 }
@@ -263,12 +263,12 @@ name : "access_hatch" {
 name : "power_conduit" {
 	type : cable_type,
 	pickup,
-	description : "Power conduit",
+	description : "power conduit",
 	alternate_name : {
 		alias : "power conduit",
 		alias : "conduit",
 	}
-	long_description : "A very long power conduit here.",
+	long_description : "A very long power conduit is here.",
 	detail : "It is a very long power conduit."
 }
 
@@ -287,7 +287,7 @@ name : "solar_panel" {
 name : "slope" {
 	type : room,
 	description : "Slope",
-	long_description : "You are ravine comes to a dead end here.  The slope goes down to the south and there are impassable cliffs in all other directions.",
+	long_description : "You are ravine comes to a dead end here.  The slope goes down to the north and there are impassable cliffs in all other directions.",
 	exits : {
 		name : "behind_ship" {
 				alias : "down",
@@ -304,7 +304,7 @@ name : "slope" {
 
 name : "cliff" {
 	type : object,
-	description : "Cliff",
+	description : "cliff",
 	long_description : "",
 	detail : "The cliffs are vertical and impassable."
 }
@@ -357,7 +357,7 @@ name : "steep_tunnel" {
 	description : "Steep Tunnel",
 	long_description : "The tunnel gets very narrow and starts to curve steeply downward and to the south here.  The tunnel widens to the west.",
 	exits : {
-		name : "crytal_grotto" {
+		name : "crystal_grotto" {
 				alias : "south",
 				alias : "down"
 			}
@@ -368,7 +368,7 @@ name : "steep_tunnel" {
 	children : {}
 }
 
-name : "crytal_grotto" {
+name : "crystal_grotto" {
 	type : room,
 	description : "Crystal Grotto",
 	long_description : "The tunnel opens up into a huge room like nothing you have ever seen before.  The walls, floor and ceiling of the room is made from massive glowing crytals.  The crytals must be refracting sunlight from  far side of the asteroid.  It is so bright in here that it almost hurts your eyes.  There is an opening in the wall to the north.",
@@ -416,7 +416,7 @@ name : "ravine_top" {
 
 name : "ravine" {
 	type : object,
-	description : "A deep ravine",
+	description : "a deep ravine",
 	long_description : "The ravine walls go stright down and are covered in jagged sharp rocks.",
 	detail : "The ravine walls are impossibly steep and impassable."
 }

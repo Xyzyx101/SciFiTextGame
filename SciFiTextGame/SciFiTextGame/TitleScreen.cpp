@@ -22,7 +22,7 @@ void TitleScreen::Display() {
 	std::cout << "asteroid and return safely to earth.              " << std::endl;
 	std::cout << "If everything goes well...                        " << std::endl;
 	std::cout << std::endl << std::endl << std::endl << std::endl << std::endl;
-	std::cout << "If you have never played before type 'help' at the prompt for instructions." << std::endl;
+	std::cout << "If you want instructions on how to play type 'help' at the prompt." << std::endl;
 	std::cout << std::endl << std::endl;
 	std::cout << "Loading..." << std::endl;
 }

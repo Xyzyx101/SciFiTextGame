@@ -46,6 +46,14 @@ void Cable::SetTheOtherEnd( GameObject_ptr object ) {
 	theOtherEnd = object;
 }
 
+bool Cable::OneEndPlugged() {
+	if( oneEnd == nullptr ) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 bool Cable::BothEndsPlugged() {
 	if( oneEnd == nullptr || theOtherEnd == nullptr ) {
 		return false;

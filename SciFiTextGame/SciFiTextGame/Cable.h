@@ -9,6 +9,7 @@ public:
 	virtual const std::string		GetDetail() const;
 	void							SetOneEnd(GameObject_ptr);
 	void							SetTheOtherEnd(GameObject_ptr);
+	bool							OneEndPlugged( );
 	bool							BothEndsPlugged();
 private:
 	GameObject_ptr					oneEnd;
