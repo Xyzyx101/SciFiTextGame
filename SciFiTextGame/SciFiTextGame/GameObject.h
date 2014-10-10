@@ -18,9 +18,9 @@ public:
 	virtual ~GameObject();
 	inline const std::string&		GetName() const { return name; };
 	const std::string&				GetDescription() const;
-	const std::string&				GetLongDescription() const;
+	virtual const std::string		GetLongDescription() const;
 	void							SetLongDescription( const std::string& );
-	const std::string&				GetDetail() const;
+	virtual const std::string		GetDetail() const;
 	void							SetDetail( const std::string& );
 	GameObject_ptr					GetParent() const;
 	void							SetParent( GameObject_ptr newParent );
@@ -30,11 +30,12 @@ public:
 	virtual inline GameObject_t		GetType() { return OBJECT; };
 	void							SetCanBePickedUp( bool value ) { canBePickedUp = value; };
 	virtual inline bool				CanBePickedUp() { return canBePickedUp; };
-private:
-	std::string						name;
+protected:
 	std::string						description;
 	std::string						longDescription;
 	std::string						detail;
+private:
+	std::string						name;
 	GameObject_ptr					parent;
 	std::vector<GameObject_ptr>		children;
 	bool							canBePickedUp;

@@ -21,15 +21,15 @@ const std::string& GameObject::GetDescription() const {
 	return description;
 }
 
-const std::string& GameObject::GetLongDescription() const {
+const std::string GameObject::GetLongDescription() const {
 	return longDescription;
 }
 
 void GameObject::SetLongDescription( const std::string& newString) {
-		longDescription = newString;
+	longDescription = newString;
 }
 
-const std::string& GameObject::GetDetail( ) const {
+const std::string GameObject::GetDetail( ) const {
 	if( detail == "" ) {
 		return longDescription;
 	} else {

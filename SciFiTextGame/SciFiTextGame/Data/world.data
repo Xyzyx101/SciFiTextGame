@@ -94,7 +94,7 @@ name : "cargo_bay" {
 	},
 	children : {
 		name : "fo_cable" {
-			alias : "power cable",
+			alias : "data cable",
 			alias : "cable"
 		},
 		name : "experiment" {
@@ -111,11 +111,13 @@ name : "cargo_bay" {
 }
 
 name : "fo_cable" {
-	type : object,
+	type : cable_type,
 	pickup,
 	alternate_name : {
 		alias : "cable",
+		alias : "data cable",
 		alias : "fibre optic cable"
+		alias : "fibre optic data cable"
 	}
 	description : "Fibre optic data cable",
 	long_description : "There is a fibre optic data cable here.",
@@ -259,15 +261,27 @@ name : "access_hatch" {
 }
 
 name : "power_conduit" {
-	type : object,
+	type : cable_type,
 	pickup,
 	description : "Power conduit",
 	alternate_name : {
 		alias : "power conduit",
 		alias : "conduit",
 	}
-	long_description : "A very long power conduit is on the floor here.",
+	long_description : "A very long power conduit here.",
 	detail : "It is a very long power conduit."
+}
+
+name : "solar_panel" {
+	type : object,
+	pickup,
+	description : "solar panel",
+	alternate_name : {
+		alias : "panel",
+		alias : "solar panel",
+	}
+	long_description : "On the floor is a solar panel.",
+	detail : "It is a spare solar panel.  Under the panel is a small box with a hole for a power conduit."
 }
 
 name : "slope" {

@@ -14,6 +14,7 @@
 "move" VERB GO
 "open" VERB OPEN
 "pick up" VERB GET
+"plug" VERB USE
 "pull" VERB USE
 "put down" VERB DROP
 "quit" VERB QUIT

@@ -6,6 +6,7 @@
 #include"GameObject.h"
 #include"Room.h"
 #include"Player.h"
+#include"Cable.h"
 #include<memory>
 #include<assert.h>
 
@@ -47,7 +48,7 @@ void Game::AddNodeToGrammarTree( Token_ptr const token, const std::string& alias
 
 void Game::DisplayCurrentLocation() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr room = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr room = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
 	std::cout << std::endl << std::endl << "**  " << room->GetDescription() << "  **" << std::endl << std::endl;
 	if( room->SeenBefore() ) {
 		DisplaySimpleRoomContents( room );
@@ -211,7 +212,7 @@ void Game::GetCommand( std::list<Token_ptr> nounList ) {
 		} else if( !object->CanBePickedUp() ) {
 			std::cout << "You cannot pick that up." << std::endl;
 		} else {
-			std::cout << object->GetDescription() << " Taken" << std::endl;
+			std::cout << object->GetDescription() << " taken" << std::endl;
 			World::Instance().MoveObject( object, World::Instance().GetPlayer() );
 		}
 	}
@@ -221,7 +222,7 @@ void Game::GoCommand( std::list<Token_ptr> nounList ) {
 	if( nounList.size() > 1 ) {
 		std::cout << "I do not understand." << std::endl;
 	}
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
 	Room_ptr targetRoom = currentRoom->GetExit( nounList.front() );
 	if( targetRoom == nullptr ) {
 		std::cout << "There is no exit in that direction." << std::endl;
@@ -243,7 +244,7 @@ void Game::InventoryCommand() {
 
 void Game::LookCommand() {
 	assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-	Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
+	Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
 	currentRoom->SetSeenBefore( false );
 }
 
@@ -254,12 +255,12 @@ void Game::OpenCommand( std::list<Token_ptr> nounList ) {
 			World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
 			LookCommand();
 		} else if( *nounIter == TOKEN( "ACCESS_HATCH" ) ) {
-			GameObject_ptr hatch = World::Instance( ).GetObjectFromToken( *nounIter );
+			GameObject_ptr hatch = World::Instance().GetObjectFromToken( *nounIter );
 			hatch->SetDetail( "The hatch is open." );
 			hatch->SetLongDescription( "There is an hatch built into the side of the ship here.  The hatch is open and reveals an empty storage bay." );
 			std::cout << "You open the hatch and a large power conduit spills out." << std::endl;
-			GameObject_ptr powerConduit = World::Instance( ).GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) );
-			World::Instance( ).MoveObject( powerConduit, World::Instance( ).GetPlayer( )->GetParent( ) );
+			GameObject_ptr powerConduit = World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) );
+			World::Instance().MoveObject( powerConduit, World::Instance().GetPlayer()->GetParent() );
 			LookCommand();
 		} else if( *nounIter == TOKEN( "AIRLOCK_DOOR" ) ) {
 			std::cout << "You push and pull the door but it is sealed tight.  Nothing happens." << std::endl;
@@ -285,7 +286,6 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 				GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
 				World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
 				std::cout << "The locker contains a space suit." << std::endl;
-				LookCommand();
 			} else if( *nounIter == TOKEN( "SPACE_SUIT" ) ) {
 				GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
 				World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer() );
@@ -294,14 +294,14 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 				std::cout << "You are now wearing the space suit." << std::endl;
 			} else if( *nounIter == TOKEN( "HANDLE" ) ) {
 				if( World::Instance().GetPlayer()->WearingSpaceSuit() ) {
+					std::cout << "The airlock door moves slowly at first then flies open with a whoosh as all of the air gets sucked out of the ship." << std::endl;
 					GameObject_ptr airlock = World::Instance().GetObjectFromToken( TOKEN( "AIRLOCK_DOOR" ) );
 					airlock->SetLongDescription( "You can see rocks and rubble through the open door to the west." );
 					airlock->SetDetail( "The door is open." );
 					assert( World::Instance().GetPlayer()->GetParent()->GetType() == GameObject_t::ROOM );
-					Room_ptr currentRoom = std::dynamic_pointer_cast<Room>(World::Instance().GetPlayer()->GetParent());
-					Room_ptr outside = std::dynamic_pointer_cast<Room>(World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ));
+					Room_ptr currentRoom = std::dynamic_pointer_cast< Room >(World::Instance().GetPlayer()->GetParent());
+					Room_ptr outside = std::dynamic_pointer_cast< Room >(World::Instance().GetObjectFromToken( TOKEN( "OUTSIDE_SHIP" ) ));
 					currentRoom->AddExit( TOKEN( "EAST" ), outside );
-					LookCommand();
 				} else {
 					std::cout << "You let all of the air out of the ship.  Good call." << std::endl;
 					Die();
@@ -318,24 +318,58 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 		for( auto nounIter = nounList.begin(); nounIter != nounList.end(); ++nounIter ) {
 			if( *nounIter == TOKEN( "FO_CABLE" ) ) {
 				nounList.erase( nounIter );
-				if( nounList.front() == TOKEN( "PORT" ) ) {
-
-				} else if( nounList.front() == TOKEN( "ANTENNAE" ) ) {
-
+				if( nounList.front() == TOKEN( "DATA_PORT" ) ) {
+					std::cout << "You plug one end of the fibre optic cable into the data port on the side of the ship." << std::endl;
+					Cable_ptr cable = std::dynamic_pointer_cast< Cable >(World::Instance().GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+					cable->SetOneEnd( World::Instance( ).GetObjectFromToken( TOKEN( "DATA_PORT" ) ) );
+					if( cable->BothEndsPlugged() ) {
+						tokenList.push_back( TOKEN( "DROP" ) );
+						tokenList.push_back( TOKEN( "FO_CABLE" ) );
+						ExecuteCommand( );
+					}
+				} else if( nounList.front() == TOKEN( "ANTENNA" ) ) {
+					std::cout << "You plug one end of the fibre optic cable into salvaged antenna." << std::endl;
+					Cable_ptr cable = std::dynamic_pointer_cast< Cable >(World::Instance( ).GetObjectFromToken( TOKEN( "FO_CABLE" ) ));
+					cable->SetTheOtherEnd( World::Instance( ).GetObjectFromToken( TOKEN( "ANTENNA" ) ) );
+					if( cable->BothEndsPlugged( ) ) {
+						tokenList.push_back( TOKEN( "DROP" ) );
+						tokenList.push_back( TOKEN( "FO_CABLE" ) );
+						ExecuteCommand( );
+					}
+				} else {
+					std::cout << "That does nothing." << std::endl;
 				}
+				break;
 			} else if( *nounIter == TOKEN( "POWER_CONDUIT" ) ) {
 				nounList.erase( nounIter );
-				nounList.erase( nounIter );
 				if( nounList.front() == TOKEN( "COMPUTER" ) ) {
-
-				} else if( nounList.front() == TOKEN( "GENERATOR" ) ) {
-
+					std::cout << "You plug one end of the power conduit into the auxiliary power socket of the computer." << std::endl;
+					Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance( ).GetObjectFromToken( TOKEN( "POWER CONDUIT" ) ));
+					conduit->SetOneEnd( World::Instance( ).GetObjectFromToken( TOKEN( "COMPUTER" ) ) );
+					if( conduit->BothEndsPlugged( ) ) {
+						tokenList.push_back( TOKEN( "DROP" ) );
+						tokenList.push_back( TOKEN( "POWER_CONDUIT" ) );
+						ExecuteCommand( );
+					}
+				} else if( nounList.front() == TOKEN( "SOLAR_PANEL" ) ) {
+					std::cout << "You plug one end of the power conduit into the spare solar panel." << std::endl;
+					Cable_ptr conduit = std::dynamic_pointer_cast< Cable >(World::Instance( ).GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) ));
+					conduit->SetTheOtherEnd( World::Instance( ).GetObjectFromToken( TOKEN( "SOLAR_PANEL" ) ) );
+					if( conduit->BothEndsPlugged( ) ) {
+						tokenList.push_back( TOKEN( "DROP" ) );
+						tokenList.push_back( TOKEN( "POWER_CONDUIT" ) );
+						ExecuteCommand( );
+					}
+				} else {
+					std::cout << "That does nothing." << std::endl;
 				}
+				break;
 			}
 		}
 	} else {
-		std::cout << "Use what?" << std::endl;
+		std::cout << "What now?" << std::endl;
 	}
+	LookCommand( );
 }
 
 

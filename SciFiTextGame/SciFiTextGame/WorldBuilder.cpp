@@ -9,6 +9,7 @@
 #include"GameObject.h"
 #include"Room.h"
 #include"Player.h"
+#include"Cable.h"
 #include"World.h"
 #include<fstream>
 #include<memory>
@@ -183,6 +184,9 @@ void WorldBuilder::AddObjectToWorld( Token_ptr type, const std::string& name, co
 		newObject = std::make_shared<Player>( name, description, longDescription );
 	} else if( type == TOKEN( "OBJECT" ) ) {
 		newObject = std::make_shared<GameObject>( name, description, longDescription, detail );
+		newObject->SetCanBePickedUp( canBePickedUp );
+	} else if( type == TOKEN( "CABLE_TYPE" ) ) {
+		newObject = std::make_shared<Cable>( name, description, longDescription, detail );
 		newObject->SetCanBePickedUp( canBePickedUp );
 	} else {
 		std::cout << "Error unknown object type" << std::endl;

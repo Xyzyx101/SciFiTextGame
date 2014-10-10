@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cable.h" />
     <ClInclude Include="CommonTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cable.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Edge.cpp" />
