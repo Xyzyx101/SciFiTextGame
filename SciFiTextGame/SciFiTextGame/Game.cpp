@@ -253,10 +253,16 @@ void Game::OpenCommand( std::list<Token_ptr> nounList ) {
 			GameObject_ptr spaceSuit = World::Instance().GetObjectFromToken( TOKEN( "SPACE_SUIT" ) );
 			World::Instance().MoveObject( spaceSuit, World::Instance().GetPlayer()->GetParent() );
 			LookCommand();
-		} else if( *nounIter == TOKEN( "POWER_CONDUIT" ) ) {
-			GameObject_ptr powerConduit = World::Instance().GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) );
-			World::Instance().MoveObject( powerConduit, World::Instance().GetPlayer()->GetParent() );
+		} else if( *nounIter == TOKEN( "ACCESS_HATCH" ) ) {
+			GameObject_ptr hatch = World::Instance( ).GetObjectFromToken( *nounIter );
+			hatch->SetDetail( "The hatch is open." );
+			hatch->SetLongDescription( "There is an hatch built into the side of the ship here.  The hatch is open and reveals an empty storage bay." );
+			std::cout << "You open the hatch and a large power conduit spills out." << std::endl;
+			GameObject_ptr powerConduit = World::Instance( ).GetObjectFromToken( TOKEN( "POWER_CONDUIT" ) );
+			World::Instance( ).MoveObject( powerConduit, World::Instance( ).GetPlayer( )->GetParent( ) );
 			LookCommand();
+		} else if( *nounIter == TOKEN( "AIRLOCK_DOOR" ) ) {
+			std::cout << "You push and pull the door but it is sealed tight.  Nothing happens." << std::endl;
 		} else {
 			std::cout << "You can't open that." << std::endl;
 		}
@@ -300,8 +306,12 @@ void Game::UseCommand( std::list<Token_ptr> nounList ) {
 					std::cout << "You let all of the air out of the ship.  Good call." << std::endl;
 					Die();
 				}
+			} else if( *nounIter == TOKEN( "AIRLOCK_DOOR" ) ) {
+				std::cout << "You push and pull the door but it is sealed tight.  Nothing happens." << std::endl;
+			} else if( *nounIter == TOKEN( "AIRLOCK_CONTROLS" ) ) {
+				std::cout << "You push the buttons but the system seems to be broken.  Nothing happens." << std::endl;
 			} else {
-				std::cout << "You can't open that." << std::endl;
+				std::cout << "You can't do that." << std::endl;
 			}
 		}
 	} else if( nounList.size() == 2 ) {

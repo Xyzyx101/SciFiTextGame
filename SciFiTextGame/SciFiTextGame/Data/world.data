@@ -152,6 +152,7 @@ name : "airlock_room" {
 			alias : "emergency override"
 		},
 		name : "airlock_controls" {
+			alias : "airlock controls"
 			alias : "controls"
 		},
 		name : "airlock_door" {
@@ -214,7 +215,7 @@ name : "antenna" {
 	alternate_name : {
 		alias : "communication antenna"
 	},
-	long_description : "There is a communication anntenae on the ground here.  Amazingly it seems to be intact.",
+	long_description : "There is a communication anntenae on the ground here.  Amazingly the antenna seems to be intact.",
 	detail : "There is a small port where a fibre optic cable should be plugged in."
 }
 
@@ -261,6 +262,10 @@ name : "power_conduit" {
 	type : object,
 	pickup,
 	description : "Power conduit",
+	alternate_name : {
+		alias : "power conduit",
+		alias : "conduit",
+	}
 	long_description : "A very long power conduit is on the floor here.",
 	detail : "It is a very long power conduit."
 }
