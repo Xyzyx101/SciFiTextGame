@@ -20,6 +20,7 @@ public:
 	void								SetTheOtherEnd( GameObject_ptr );
 
 	bool								OneEndPlugged();
+	bool								TheOtherEndPlugged();
 	bool								BothEndsPlugged();
 private:
 	GameObject_ptr						oneEnd;

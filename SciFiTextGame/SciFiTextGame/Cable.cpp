@@ -54,6 +54,14 @@ bool Cable::OneEndPlugged() {
 	}
 }
 
+bool Cable::TheOtherEndPlugged() {
+	if( theOtherEnd == nullptr ) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 bool Cable::BothEndsPlugged() {
 	if( oneEnd == nullptr || theOtherEnd == nullptr ) {
 		return false;
